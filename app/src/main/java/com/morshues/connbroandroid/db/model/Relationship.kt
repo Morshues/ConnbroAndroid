@@ -8,6 +8,11 @@ import java.sql.Date
 
 @Entity(
     foreignKeys = [
+        ForeignKey(entity = User::class,
+            parentColumns = ["id"],
+            childColumns = ["user_id"],
+            onDelete = ForeignKey.CASCADE
+        ),
         ForeignKey(entity = Person::class,
             parentColumns = ["id"],
             childColumns = ["person_id"],
@@ -16,8 +21,9 @@ import java.sql.Date
     ])
 data class Relationship(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    @ColumnInfo(name = "user_id", index = true) val userId: Long,
+    @ColumnInfo(name = "person_id", index = true) val personId: Long,
     @ColumnInfo(name = "first_met") val firstMet: Date?,
     @ColumnInfo(name = "title") val title: String,
-    @ColumnInfo(name = "description") val description: String,
-    @ColumnInfo(name = "person_id", index = true) val personId: Long
+    @ColumnInfo(name = "description") val description: String
 )

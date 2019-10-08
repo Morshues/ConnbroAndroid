@@ -16,6 +16,7 @@ import java.sql.Date
 @RunWith(AndroidJUnit4::class)
 class ConnbroDatabaseTest {
     private lateinit var db: ConnbroDatabase
+    private lateinit var testUser: User
 
     @Before
     fun setup() {
@@ -23,13 +24,21 @@ class ConnbroDatabaseTest {
             InstrumentationRegistry.getInstrumentation().targetContext,
             ConnbroDatabase::class.java
         ).allowMainThreadQueries().build()
+
+        db.userDao().let {
+            val userId = it.insert(User(
+                account = "aa",
+                password = "bb"
+            ))
+            testUser = it.get(userId)
+        }
     }
 
     @Test
     fun should_Insert_User_Item() {
         val user = User(
-            account = "",
-            password = ""
+            account = "cc",
+            password = "dd"
         )
         db.userDao().let {
             val id = it.insert(user)
@@ -41,6 +50,7 @@ class ConnbroDatabaseTest {
     @Test
     fun should_Insert_Person_Item() {
         val person = Person(
+            userId = testUser.id,
             firstName = "David",
             midName = "",
             lastName = "Jackson",
@@ -57,6 +67,7 @@ class ConnbroDatabaseTest {
     @Test
     fun should_Insert_Characteristic_Item() {
         val person = Person(
+            userId = testUser.id,
             firstName = "David",
             midName = "",
             lastName = "Jackson",
@@ -66,10 +77,12 @@ class ConnbroDatabaseTest {
         val personId = db.personDao().insert(person)
 
         val c1 = Characteristic(
+            userId = testUser.id,
             description = "Love to eat",
             personId = personId
         )
         val c2 = Characteristic(
+            userId = testUser.id,
             description = "Flat fire",
             personId = personId
         )
@@ -85,6 +98,7 @@ class ConnbroDatabaseTest {
             val charTest4 = it.getByPerson(personId)
             Assert.assertTrue(charTest4.size == 2)
         }
-        db.personDao().get(personId)
+        val ppp = db.personDao().getPersonWith(personId)
+
     }
 }

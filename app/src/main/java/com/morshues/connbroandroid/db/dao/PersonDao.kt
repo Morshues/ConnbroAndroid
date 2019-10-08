@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.morshues.connbroandroid.db.model.Person
+import com.morshues.connbroandroid.db.model.PersonDetail
 
 @Dao
 interface PersonDao {
@@ -19,6 +20,9 @@ interface PersonDao {
 
     @Query("SELECT * FROM person WHERE first_name LIKE :name")
     fun findByName(name: String): List<Person>
+
+    @Query("SELECT * FROM person WHERE id = :personId")
+    fun getPersonWith(personId: Long): PersonDetail
 
     @Insert
     fun insert(person: Person): Long

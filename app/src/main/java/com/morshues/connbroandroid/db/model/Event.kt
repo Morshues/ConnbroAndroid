@@ -8,6 +8,11 @@ import java.sql.Date
 
 @Entity(
     foreignKeys = [
+        ForeignKey(entity = User::class,
+            parentColumns = ["id"],
+            childColumns = ["user_id"],
+            onDelete = ForeignKey.CASCADE
+        ),
         ForeignKey(entity = Place::class,
             parentColumns = ["id"],
             childColumns = ["place_id"],
@@ -21,6 +26,7 @@ import java.sql.Date
     ])
 data class Event(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    @ColumnInfo(name = "user_id", index = true) val userId: Long,
     @ColumnInfo(name = "start_time") val startTime: Date,
     @ColumnInfo(name = "end_time") val endTime: Date,
     @ColumnInfo(name = "description") val description: String,
