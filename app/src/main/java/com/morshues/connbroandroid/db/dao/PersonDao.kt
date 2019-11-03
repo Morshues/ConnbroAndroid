@@ -1,5 +1,6 @@
 package com.morshues.connbroandroid.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -10,19 +11,16 @@ import com.morshues.connbroandroid.db.model.PersonDetail
 @Dao
 interface PersonDao {
     @Query("SELECT * FROM person WHERE id = :id")
-    fun get(id: Long): Person
+    fun get(id: Long): LiveData<PersonDetail>
 
     @Query("SELECT * FROM person")
-    fun getAll(): List<Person>
+    fun getAll(): LiveData<List<PersonDetail>>
 
     @Query("SELECT * FROM person WHERE id IN (:personIds)")
-    fun loadAllByIds(personIds: LongArray): List<Person>
+    fun loadAllByIds(personIds: LongArray): LiveData<List<Person>>
 
     @Query("SELECT * FROM person WHERE first_name LIKE :name")
-    fun findByName(name: String): List<Person>
-
-    @Query("SELECT * FROM person WHERE id = :personId")
-    fun getPersonWith(personId: Long): PersonDetail
+    fun findByName(name: String): LiveData<List<Person>>
 
     @Insert
     fun insert(person: Person): Long

@@ -33,17 +33,17 @@ abstract class ConnbroDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: ConnbroDatabase? = null
 
-        fun getInstance(context: Context): ConnbroDatabase? {
+        @Synchronized
+        fun getInstance(context: Context): ConnbroDatabase {
             if (INSTANCE == null) {
-                synchronized(ConnbroDatabase::class) {
-                    INSTANCE = Room.databaseBuilder(
-                        context,
-                        ConnbroDatabase::class.java,
-                        "connbro.db"
-                    ).build()
-                }
+                INSTANCE = Room.databaseBuilder(
+                    context.applicationContext,
+                    ConnbroDatabase::class.java,
+                    "connbro.db"
+                ).build()
             }
-            return INSTANCE
+
+            return INSTANCE!!
         }
     }
 }

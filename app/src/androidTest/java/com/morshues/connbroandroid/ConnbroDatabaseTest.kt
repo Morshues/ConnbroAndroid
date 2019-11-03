@@ -60,7 +60,7 @@ class ConnbroDatabaseTest {
         db.personDao().let {
             val id = it.insert(person)
             val personTest = it.get(id)
-            Assert.assertEquals(person.firstName, personTest.firstName)
+            Assert.assertEquals(person.firstName, personTest.value?.person)
         }
     }
 
@@ -98,7 +98,7 @@ class ConnbroDatabaseTest {
             val charTest4 = it.getByPerson(personId)
             Assert.assertTrue(charTest4.size == 2)
         }
-        val ppp = db.personDao().getPersonWith(personId)
+        val ppp = db.personDao().get(personId)
 
     }
 }
