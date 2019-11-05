@@ -1,5 +1,7 @@
 package com.morshues.connbroandroid
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.LiveData
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -9,6 +11,7 @@ import com.morshues.connbroandroid.db.model.Person
 import com.morshues.connbroandroid.db.model.User
 import org.junit.Assert
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.sql.Date
@@ -17,6 +20,9 @@ import java.sql.Date
 class ConnbroDatabaseTest {
     private lateinit var db: ConnbroDatabase
     private lateinit var testUser: User
+
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before
     fun setup() {
@@ -59,8 +65,9 @@ class ConnbroDatabaseTest {
         )
         db.personDao().let {
             val id = it.insert(person)
-            val personTest = it.get(id)
-            Assert.assertEquals(person.firstName, personTest.value?.person)
+            it.get(id).observeOnce {
+                Assert.assertEquals(person.firstName, it.person.firstName)
+            }
         }
     }
 
@@ -100,5 +107,10 @@ class ConnbroDatabaseTest {
         }
         val ppp = db.personDao().get(personId)
 
+    }
+
+    private fun <T> LiveData<T>.observeOnce(onChangeHandler: (T) -> Unit) {
+        val observer = OneTimeObserver(handler = onChangeHandler)
+        observe(observer, observer)
     }
 }
