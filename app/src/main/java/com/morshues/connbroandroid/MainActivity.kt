@@ -11,15 +11,23 @@ enum class Page { MAIN, NEW_FRIEND }
 
 class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
 
-    private val mRepository = ConnbroRepository(application)
+    private lateinit var mRepository: ConnbroRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        mRepository = ConnbroRepository(application)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, MainFragment.newInstance(mRepository))
                 .commitNow()
+        }
+    }
+
+    override fun onBackPressed() {
+        when (supportFragmentManager.findFragmentById(R.id.container)) {
+            is NewFriendFragment -> onFragmentChange(Page.MAIN)
+            else -> super.onBackPressed()
         }
     }
 

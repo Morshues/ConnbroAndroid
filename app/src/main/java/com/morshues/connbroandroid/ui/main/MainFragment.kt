@@ -26,7 +26,7 @@ class MainFragment(
     private var friendsAdapter: FriendsAdapter? = null
 
     companion object {
-        fun newInstance(repository: ConnbroRepository) = NewFriendFragment(repository)
+        fun newInstance(repository: ConnbroRepository) = MainFragment(repository)
     }
 
     private lateinit var friendsViewModel: FriendsViewModel
