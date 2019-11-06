@@ -13,21 +13,21 @@ import com.morshues.connbroandroid.Page
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.db.model.Person
 import com.morshues.connbroandroid.repo.ConnbroRepository
-import kotlinx.android.synthetic.main.fragment_new_friend.view.*
+import kotlinx.android.synthetic.main.fragment_friend_create.view.*
 import java.sql.Date
 
-class NewFriendFragment(
+class FriendCreateFragment(
     private val mRepository: ConnbroRepository
 ) : Fragment() {
 
     private var mListener: OnFragmentInteractionListener? = null
 
     companion object {
-        fun newInstance(repository: ConnbroRepository) = NewFriendFragment(repository)
+        fun newInstance(repository: ConnbroRepository) = FriendCreateFragment(repository)
     }
 
     private lateinit var rootView: View
-    private lateinit var viewModel: NewFriendViewModel
+    private lateinit var viewModel: FriendCreateViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -42,7 +42,7 @@ class NewFriendFragment(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        rootView = inflater.inflate(R.layout.fragment_new_friend, container, false)
+        rootView = inflater.inflate(R.layout.fragment_friend_create, container, false)
 
         rootView.btn_create_friend.setOnClickListener {
             createFriend()
@@ -55,8 +55,8 @@ class NewFriendFragment(
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(
             this,
-            viewModelFactory { NewFriendViewModel(mRepository) }
-        ).get(NewFriendViewModel::class.java)
+            viewModelFactory { FriendCreateViewModel(mRepository) }
+        ).get(FriendCreateViewModel::class.java)
     }
 
     override fun onDetach() {
@@ -71,7 +71,8 @@ class NewFriendFragment(
                 midName = et_mid_name.text.toString().trim(),
                 lastName = et_last_name.text.toString().trim(),
                 nickName = et_nick_name.text.toString().trim(),
-                birthday = Date(dp_birth.year, dp_birth.month, dp_birth.dayOfMonth)
+                birthday = Date(dp_birth.year, dp_birth.month, dp_birth.dayOfMonth),
+                description = et_description.text.toString().trim()
             )
             if (newFriend.nickName.isNotBlank() || newFriend.fullName().isNotBlank()) {
                 viewModel.insert(newFriend)

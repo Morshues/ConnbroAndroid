@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.morshues.connbroandroid.repo.ConnbroRepository
 import com.morshues.connbroandroid.ui.main.OnFragmentInteractionListener
 import com.morshues.connbroandroid.ui.main.MainFragment
-import com.morshues.connbroandroid.ui.main.NewFriendFragment
+import com.morshues.connbroandroid.ui.main.FriendCreateFragment
 
 enum class Page { MAIN, NEW_FRIEND }
 
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
 
     override fun onBackPressed() {
         when (supportFragmentManager.findFragmentById(R.id.container)) {
-            is NewFriendFragment -> onFragmentChange(Page.MAIN)
+            is FriendCreateFragment -> onFragmentChange(Page.MAIN)
             else -> super.onBackPressed()
         }
     }
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
     override fun onFragmentChange(page: Page) {
         val fragment = when (page) {
             Page.MAIN -> MainFragment.newInstance(mRepository)
-            Page.NEW_FRIEND -> NewFriendFragment.newInstance(mRepository)
+            Page.NEW_FRIEND -> FriendCreateFragment.newInstance(mRepository)
         }
         supportFragmentManager
             .beginTransaction()

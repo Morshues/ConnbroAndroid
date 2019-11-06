@@ -21,7 +21,8 @@ data class Person(
     @ColumnInfo(name = "mid_name") var midName: String = "",
     @ColumnInfo(name = "last_name") var lastName: String,
     @ColumnInfo(name = "nick_name") var nickName: String,
-    @ColumnInfo(name = "birthday") var birthday: Date? = null
+    @ColumnInfo(name = "birthday") var birthday: Date? = null,
+    @ColumnInfo(name = "description") var description: String = ""
 ) {
     public fun fullName(): String {
         return "$firstName $midName $lastName"
