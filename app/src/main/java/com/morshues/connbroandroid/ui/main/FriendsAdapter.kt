@@ -23,7 +23,7 @@ class FriendsAdapter : RecyclerView.Adapter<FriendsAdapter.FriendHolder>() {
 
     override fun onBindViewHolder(holder: FriendHolder, position: Int) {
         val currentFriend = friends[position]
-        holder.tvName.text = currentFriend.person.firstName
+        holder.tvName.text = currentFriend.person.showingName()
     }
 
     fun setFriends(friends: List<PersonDetail>) {

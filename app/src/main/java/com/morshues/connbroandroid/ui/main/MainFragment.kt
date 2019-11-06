@@ -10,11 +10,15 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.morshues.connbroandroid.Page
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.db.model.PersonDetail
+import com.morshues.connbroandroid.repo.ConnbroRepository
 import kotlinx.android.synthetic.main.fragment_main.view.*
 
-class MainFragment : Fragment() {
+class MainFragment(
+    private val mRepository: ConnbroRepository
+) : Fragment() {
 
     private var mListener: OnFragmentInteractionListener? = null
 
@@ -22,7 +26,7 @@ class MainFragment : Fragment() {
     private var friendsAdapter: FriendsAdapter? = null
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance(repository: ConnbroRepository) = NewFriendFragment(repository)
     }
 
     private lateinit var friendsViewModel: FriendsViewModel
@@ -43,7 +47,7 @@ class MainFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_main, container, false)
 
         rootView.btn_add.setOnClickListener {
-            mListener?.onFragmentChange(NewFriendFragment::class.java)
+            mListener?.onFragmentChange(Page.NEW_FRIEND)
         }
 
         friendsAdapter = FriendsAdapter()
@@ -59,8 +63,11 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        friendsViewModel = ViewModelProviders.of(this).get(FriendsViewModel::class.java)
-        friendsViewModel.allFriends.observe(this, Observer<List<PersonDetail>> {
+        friendsViewModel = ViewModelProviders.of(
+            this,
+            viewModelFactory { FriendsViewModel(mRepository) }
+        ).get(FriendsViewModel::class.java)
+        friendsViewModel.allFriends.observe(viewLifecycleOwner, Observer<List<PersonDetail>> {
             friendsAdapter?.setFriends(it)
         })
     }

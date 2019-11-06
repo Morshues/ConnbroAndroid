@@ -7,20 +7,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.snackbar.Snackbar
+import com.morshues.connbroandroid.Page
 
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.db.model.Person
+import com.morshues.connbroandroid.repo.ConnbroRepository
 import kotlinx.android.synthetic.main.fragment_new_friend.view.*
 import java.sql.Date
 
-class NewFriendFragment : Fragment() {
+class NewFriendFragment(
+    private val mRepository: ConnbroRepository
+) : Fragment() {
 
     private var mListener: OnFragmentInteractionListener? = null
 
     companion object {
-        fun newInstance() = NewFriendFragment()
+        fun newInstance(repository: ConnbroRepository) = NewFriendFragment(repository)
     }
 
+    private lateinit var rootView: View
     private lateinit var viewModel: NewFriendViewModel
 
     override fun onAttach(context: Context) {
@@ -36,21 +42,10 @@ class NewFriendFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_new_friend, container, false)
+        rootView = inflater.inflate(R.layout.fragment_new_friend, container, false)
 
         rootView.btn_create_friend.setOnClickListener {
-            rootView.apply {
-                val newFriend = Person(
-                    firstName = et_first_name.text.toString(),
-                    midName = et_mid_name.text.toString(),
-                    lastName = et_last_name.text.toString(),
-                    nickName = et_nick_name.text.toString(),
-                    birthday = Date(dp_birth.year, dp_birth.month, dp_birth.dayOfMonth)
-                )
-                viewModel.insert(newFriend)
-                mListener?.onFragmentChange(MainFragment::class.java)
-            }
-
+            createFriend()
         }
 
         return rootView
@@ -58,13 +53,37 @@ class NewFriendFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(NewFriendViewModel::class.java)
-        // TODO: Use the ViewModel
+        viewModel = ViewModelProviders.of(
+            this,
+            viewModelFactory { NewFriendViewModel(mRepository) }
+        ).get(NewFriendViewModel::class.java)
     }
 
     override fun onDetach() {
         super.onDetach()
         mListener = null
+    }
+
+    private fun createFriend() {
+        rootView.apply {
+            val newFriend = Person(
+                firstName = et_first_name.text.toString().trim(),
+                midName = et_mid_name.text.toString().trim(),
+                lastName = et_last_name.text.toString().trim(),
+                nickName = et_nick_name.text.toString().trim(),
+                birthday = Date(dp_birth.year, dp_birth.month, dp_birth.dayOfMonth)
+            )
+            if (newFriend.nickName.isNotBlank() || newFriend.fullName().isNotBlank()) {
+                viewModel.insert(newFriend)
+                mListener?.onFragmentChange(Page.MAIN)
+            } else {
+                Snackbar.make(
+                    rootView,
+                    "Name or NickName can't not be blank",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
 }

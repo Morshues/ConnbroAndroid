@@ -1,7 +1,7 @@
 package com.morshues.connbroandroid.ui.main
 
-import androidx.fragment.app.Fragment
+import com.morshues.connbroandroid.Page
 
 interface OnFragmentInteractionListener {
-    fun onFragmentChange(klx: Class<out Fragment>)
+    fun onFragmentChange(page: Page)
 }
