@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.morshues.connbroandroid.App
 import com.morshues.connbroandroid.Page
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.db.model.PersonDetail
@@ -35,7 +34,7 @@ class MainFragment : Fragment() {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
             mListener = context
-            mRepository = (context.applicationContext as App).repository
+            mRepository = context.getRepository()
         } else {
             throw RuntimeException("$context must implement OnFragmentChangeListener")
         }

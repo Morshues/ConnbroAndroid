@@ -8,9 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.snackbar.Snackbar
-import com.morshues.connbroandroid.App
 import com.morshues.connbroandroid.Page
-
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.db.model.Person
 import com.morshues.connbroandroid.repo.ConnbroRepository
@@ -33,7 +31,7 @@ class FriendCreateFragment : Fragment() {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
             mListener = context
-            mRepository = (context.applicationContext as App).repository
+            mRepository = context.getRepository()
         } else {
             throw RuntimeException("$context must implement OnFragmentChangeListener")
         }
