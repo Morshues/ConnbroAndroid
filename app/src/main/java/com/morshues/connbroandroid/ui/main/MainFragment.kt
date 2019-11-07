@@ -10,15 +10,15 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.morshues.connbroandroid.App
 import com.morshues.connbroandroid.Page
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.db.model.PersonDetail
 import com.morshues.connbroandroid.repo.ConnbroRepository
 import kotlinx.android.synthetic.main.fragment_main.view.*
 
-class MainFragment(
-    private val mRepository: ConnbroRepository
-) : Fragment() {
+class MainFragment : Fragment() {
+    private lateinit var mRepository: ConnbroRepository
 
     private var mListener: OnFragmentInteractionListener? = null
 
@@ -26,7 +26,7 @@ class MainFragment(
     private var friendsAdapter: FriendsAdapter? = null
 
     companion object {
-        fun newInstance(repository: ConnbroRepository) = MainFragment(repository)
+        fun newInstance() = MainFragment()
     }
 
     private lateinit var friendsViewModel: FriendsViewModel
@@ -35,6 +35,7 @@ class MainFragment(
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
             mListener = context
+            mRepository = (context.applicationContext as App).repository
         } else {
             throw RuntimeException("$context must implement OnFragmentChangeListener")
         }

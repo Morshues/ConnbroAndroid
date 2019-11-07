@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.snackbar.Snackbar
+import com.morshues.connbroandroid.App
 import com.morshues.connbroandroid.Page
 
 import com.morshues.connbroandroid.R
@@ -16,14 +17,13 @@ import com.morshues.connbroandroid.repo.ConnbroRepository
 import kotlinx.android.synthetic.main.fragment_friend_create.view.*
 import java.sql.Date
 
-class FriendCreateFragment(
-    private val mRepository: ConnbroRepository
-) : Fragment() {
+class FriendCreateFragment : Fragment() {
+    private lateinit var mRepository: ConnbroRepository
 
     private var mListener: OnFragmentInteractionListener? = null
 
     companion object {
-        fun newInstance(repository: ConnbroRepository) = FriendCreateFragment(repository)
+        fun newInstance() = FriendCreateFragment()
     }
 
     private lateinit var rootView: View
@@ -33,6 +33,7 @@ class FriendCreateFragment(
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
             mListener = context
+            mRepository = (context.applicationContext as App).repository
         } else {
             throw RuntimeException("$context must implement OnFragmentChangeListener")
         }
