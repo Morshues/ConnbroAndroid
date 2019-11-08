@@ -14,6 +14,7 @@ import com.morshues.connbroandroid.db.model.Person
 import com.morshues.connbroandroid.repo.ConnbroRepository
 import kotlinx.android.synthetic.main.fragment_friend_create.view.*
 import java.sql.Date
+import java.util.*
 
 class FriendCreateFragment : Fragment() {
     private lateinit var mRepository: ConnbroRepository
@@ -65,12 +66,13 @@ class FriendCreateFragment : Fragment() {
 
     private fun createFriend() {
         rootView.apply {
+            val birthDate = GregorianCalendar(dp_birth.year, dp_birth.month, dp_birth.dayOfMonth)
             val newFriend = Person(
                 firstName = et_first_name.text.toString().trim(),
                 midName = et_mid_name.text.toString().trim(),
                 lastName = et_last_name.text.toString().trim(),
                 nickName = et_nick_name.text.toString().trim(),
-                birthday = Date(dp_birth.year, dp_birth.month, dp_birth.dayOfMonth),
+                birthday = Date(birthDate.timeInMillis),
                 note = et_note.text.toString().trim()
             )
             if (newFriend.nickName.isNotBlank() || newFriend.fullName().isNotBlank()) {
