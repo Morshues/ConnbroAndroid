@@ -36,7 +36,7 @@ class MainFragment : Fragment() {
             mListener = context
             mRepository = context.getRepository()
         } else {
-            throw RuntimeException("$context must implement OnFragmentChangeListener")
+            throw RuntimeException("$context must implement OnFragmentInteractionListener")
         }
     }
 
@@ -47,10 +47,15 @@ class MainFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_main, container, false)
 
         rootView.btn_add.setOnClickListener {
-            mListener?.onFragmentChange(Page.NEW_FRIEND)
+            mListener?.onFragmentChange(Page.FriendCreatePage)
         }
 
         friendsAdapter = FriendsAdapter()
+        friendsAdapter!!.setOnItemClickListener(object : FriendsAdapter.OnItemClickListener{
+            override fun onItemClick(person: PersonDetail) {
+                mListener?.onFragmentChange(Page.FriendDetailPage(person.person.id))
+            }
+        })
 
         mRecyclerView = rootView.rv_friends.apply {
             layoutManager = LinearLayoutManager(activity)

@@ -48,6 +48,16 @@ class ConnbroRepository(application: Application) {
         }
     }
 
+    fun updatePerson(person: Person) = runBlocking {
+        launch(Dispatchers.IO) {
+            personDao.update(person)
+        }
+    }
+
+    fun getPerson(id: Long): LiveData<PersonDetail> {
+        return personDao.get(id)
+    }
+
     fun getAllFriends(): LiveData<List<PersonDetail>> {
         return personDao.getAll()
     }

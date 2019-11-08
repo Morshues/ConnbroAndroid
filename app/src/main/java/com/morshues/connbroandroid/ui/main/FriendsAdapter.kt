@@ -10,6 +10,7 @@ import com.morshues.connbroandroid.db.model.PersonDetail
 
 class FriendsAdapter : RecyclerView.Adapter<FriendsAdapter.FriendHolder>() {
     private var friends: List<PersonDetail>  = ArrayList()
+    private var mOnItemClickListener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -31,7 +32,23 @@ class FriendsAdapter : RecyclerView.Adapter<FriendsAdapter.FriendHolder>() {
         notifyDataSetChanged()
     }
 
-    class FriendHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class FriendHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvName: TextView = itemView.findViewById(R.id.tv_name)
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    mOnItemClickListener?.onItemClick(friends[position])
+                }
+            }
+        }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(person: PersonDetail)
+    }
+
+    fun setOnItemClickListener(l: OnItemClickListener) {
+        mOnItemClickListener = l
     }
 }

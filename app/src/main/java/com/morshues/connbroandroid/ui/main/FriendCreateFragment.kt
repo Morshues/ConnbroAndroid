@@ -33,7 +33,7 @@ class FriendCreateFragment : Fragment() {
             mListener = context
             mRepository = context.getRepository()
         } else {
-            throw RuntimeException("$context must implement OnFragmentChangeListener")
+            throw RuntimeException("$context must implement OnFragmentInteractionListener")
         }
     }
 
@@ -75,7 +75,7 @@ class FriendCreateFragment : Fragment() {
             )
             if (newFriend.nickName.isNotBlank() || newFriend.fullName().isNotBlank()) {
                 viewModel.insert(newFriend)
-                mListener?.onFragmentChange(Page.MAIN)
+                mListener?.onFragmentChange(Page.MainPage)
             } else {
                 Snackbar.make(
                     rootView,

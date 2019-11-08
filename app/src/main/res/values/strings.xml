@@ -5,7 +5,10 @@
     <string name="mid_name">Mid Name</string>
     <string name="first_name">First Name</string>
     <string name="nick_name">Nick Name</string>
+    <string name="birthday">Birthday</string>
+    <string name="empty"> (empty) </string>
     <string name="description">Description</string>
+    <string name="no_description">No Description</string>
 
     <string name="create_friend">Add New Friend</string>
 </resources>
