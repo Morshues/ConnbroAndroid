@@ -7,8 +7,8 @@
     <string name="nick_name">Nick Name</string>
     <string name="birthday">Birthday</string>
     <string name="empty"> (empty) </string>
-    <string name="description">Description</string>
-    <string name="no_description">No Description</string>
+    <string name="note">Note</string>
+    <string name="no_note">No Note</string>
 
     <string name="create_friend">Add New Friend</string>
 </resources>

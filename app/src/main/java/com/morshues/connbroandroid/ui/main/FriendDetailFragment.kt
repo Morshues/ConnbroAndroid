@@ -62,7 +62,7 @@ class FriendDetailFragment : Fragment() {
             tv_last_name.text = person.lastName
             tv_nick_name.text = person.nickName
             tv_birthday.text = person.birthday.toString()
-            tv_description.text = person.description
+            tv_note.text = person.note
         })
     }
 

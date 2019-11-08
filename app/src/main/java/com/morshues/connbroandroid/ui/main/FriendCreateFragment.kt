@@ -71,7 +71,7 @@ class FriendCreateFragment : Fragment() {
                 lastName = et_last_name.text.toString().trim(),
                 nickName = et_nick_name.text.toString().trim(),
                 birthday = Date(dp_birth.year, dp_birth.month, dp_birth.dayOfMonth),
-                description = et_description.text.toString().trim()
+                note = et_note.text.toString().trim()
             )
             if (newFriend.nickName.isNotBlank() || newFriend.fullName().isNotBlank()) {
                 viewModel.insert(newFriend)

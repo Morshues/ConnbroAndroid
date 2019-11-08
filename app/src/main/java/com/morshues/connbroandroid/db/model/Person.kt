@@ -22,13 +22,13 @@ data class Person(
     @ColumnInfo(name = "last_name") var lastName: String,
     @ColumnInfo(name = "nick_name") var nickName: String,
     @ColumnInfo(name = "birthday") var birthday: Date? = null,
-    @ColumnInfo(name = "description") var description: String = ""
+    @ColumnInfo(name = "note") var note: String = ""
 ) {
-    public fun fullName(): String {
+    fun fullName(): String {
         return "$firstName $midName $lastName"
     }
 
-    public fun showingName(): String {
+    fun showingName(): String {
         val fullName = fullName()
         return when {
             fullName.isBlank() -> nickName

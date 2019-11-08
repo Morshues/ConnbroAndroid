@@ -67,10 +67,10 @@
                     app:layout_constraintTop_toBottomOf="@id/et_nick_name" />
 
             <EditText
-                    android:id="@+id/et_description"
+                    android:id="@+id/et_note"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/description"
+                    android:hint="@string/note"
                     android:inputType="text"
                     app:layout_constraintTop_toBottomOf="@id/dp_birth" />
 

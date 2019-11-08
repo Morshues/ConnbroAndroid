@@ -112,13 +112,13 @@
                 tools:text="@string/birthday" />
 
         <TextView
-                android:id="@+id/tv_description"
+                android:id="@+id/tv_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/no_description"
+                android:hint="@string/no_note"
                 android:padding="8dp"
                 app:layout_constraintTop_toBottomOf="@id/tv_birthday"
-                tools:text="@string/description" />
+                tools:text="@string/note" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
