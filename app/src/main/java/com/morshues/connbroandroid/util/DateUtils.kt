@@ -6,25 +6,25 @@ import java.util.*
 
 object DateUtils {
 
-    fun dateStringToCalender(dateStr: String): Calendar {
+    fun toCalender(dateStr: CharSequence): Calendar {
         val sdf = SimpleDateFormat.getDateInstance()
         val c = Calendar.getInstance()
         try {
-            c.time = sdf.parse(dateStr)
+            c.time = sdf.parse(dateStr.toString())
         } catch (e: ParseException) {
         }
         return c
     }
 
-    fun dateCalendarToString(year: Int, month: Int, dayOfMonth: Int): String {
+    fun toString(year: Int, month: Int, dayOfMonth: Int): String {
         val birthDate = GregorianCalendar(year, month, dayOfMonth)
         val sdf = SimpleDateFormat.getDateInstance()
         return sdf.format(birthDate.time)
     }
 
-    fun dateStringToSqlDate(dateStr: String): java.sql.Date {
+    fun toSqlDate(dateStr: CharSequence): java.sql.Date {
         val sdf = SimpleDateFormat.getDateInstance()
-        val date = sdf.parse(dateStr)
+        val date = sdf.parse(dateStr.toString())
         return java.sql.Date(date.time)
     }
 

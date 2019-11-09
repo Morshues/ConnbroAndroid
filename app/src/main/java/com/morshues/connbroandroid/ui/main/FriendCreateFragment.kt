@@ -60,11 +60,11 @@ class FriendCreateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         tv_birth.setOnClickListener {
-            val c = DateUtils.dateStringToCalender(tv_birth.text.toString())
+            val c = DateUtils.toCalender(tv_birth.text)
             val activity = activity?: return@setOnClickListener
             val dlg = DatePickerDialog(activity,
                 DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                    tv_birth.text = DateUtils.dateCalendarToString(year, month, dayOfMonth)
+                    tv_birth.text = DateUtils.toString(year, month, dayOfMonth)
                 }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH))
             dlg.show()
         }
@@ -82,7 +82,7 @@ class FriendCreateFragment : Fragment() {
                 midName = et_mid_name.text.toString().trim(),
                 lastName = et_last_name.text.toString().trim(),
                 nickName = et_nick_name.text.toString().trim(),
-                birthday = DateUtils.dateStringToSqlDate(tv_birth.text.toString()),
+                birthday = DateUtils.toSqlDate(tv_birth.text),
                 note = et_note.text.toString().trim()
             )
             if (newFriend.nickName.isNotBlank() || newFriend.fullName().isNotBlank()) {
