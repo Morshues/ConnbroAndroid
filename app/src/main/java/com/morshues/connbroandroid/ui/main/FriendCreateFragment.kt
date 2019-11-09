@@ -13,17 +13,15 @@ import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.db.model.Person
 import com.morshues.connbroandroid.repo.ConnbroRepository
 import kotlinx.android.synthetic.main.fragment_friend_create.view.*
-import java.sql.Date
+import android.app.DatePickerDialog
+import com.morshues.connbroandroid.util.DateUtils
+import kotlinx.android.synthetic.main.fragment_friend_create.*
 import java.util.*
 
 class FriendCreateFragment : Fragment() {
     private lateinit var mRepository: ConnbroRepository
 
     private var mListener: OnFragmentInteractionListener? = null
-
-    companion object {
-        fun newInstance() = FriendCreateFragment()
-    }
 
     private lateinit var rootView: View
     private lateinit var viewModel: FriendCreateViewModel
@@ -59,6 +57,19 @@ class FriendCreateFragment : Fragment() {
         ).get(FriendCreateViewModel::class.java)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        tv_birth.setOnClickListener {
+            val c = DateUtils.dateStringToCalender(tv_birth.text.toString())
+            val activity = activity?: return@setOnClickListener
+            val dlg = DatePickerDialog(activity,
+                DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                    tv_birth.text = DateUtils.dateCalendarToString(year, month, dayOfMonth)
+                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH))
+            dlg.show()
+        }
+    }
+
     override fun onDetach() {
         super.onDetach()
         mListener = null
@@ -66,13 +77,12 @@ class FriendCreateFragment : Fragment() {
 
     private fun createFriend() {
         rootView.apply {
-            val birthDate = GregorianCalendar(dp_birth.year, dp_birth.month, dp_birth.dayOfMonth)
             val newFriend = Person(
                 firstName = et_first_name.text.toString().trim(),
                 midName = et_mid_name.text.toString().trim(),
                 lastName = et_last_name.text.toString().trim(),
                 nickName = et_nick_name.text.toString().trim(),
-                birthday = Date(birthDate.timeInMillis),
+                birthday = DateUtils.dateStringToSqlDate(tv_birth.text.toString()),
                 note = et_note.text.toString().trim()
             )
             if (newFriend.nickName.isNotBlank() || newFriend.fullName().isNotBlank()) {
@@ -88,4 +98,7 @@ class FriendCreateFragment : Fragment() {
         }
     }
 
+    companion object {
+        fun newInstance() = FriendCreateFragment()
+    }
 }

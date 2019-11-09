@@ -9,6 +9,7 @@
     <string name="empty"> (empty) </string>
     <string name="note">Note</string>
     <string name="no_note">No Note</string>
+    <string name="touch_to_input">(Touch to input)</string>
 
     <string name="create_friend">Add New Friend</string>
 </resources>
