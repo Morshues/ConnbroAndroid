@@ -14,7 +14,7 @@ import com.morshues.connbroandroid.Page
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.db.model.PersonDetail
 import com.morshues.connbroandroid.repo.ConnbroRepository
-import kotlinx.android.synthetic.main.fragment_main.view.*
+import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
     private lateinit var mRepository: ConnbroRepository
@@ -44,9 +44,13 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val rootView = inflater.inflate(R.layout.fragment_main, container, false)
+        return inflater.inflate(R.layout.fragment_main, container, false)
+    }
 
-        rootView.btn_add.setOnClickListener {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        btn_add.setOnClickListener {
             mListener?.onFragmentChange(Page.FriendCreatePage)
         }
 
@@ -57,13 +61,11 @@ class MainFragment : Fragment() {
             }
         })
 
-        mRecyclerView = rootView.rv_friends.apply {
+        mRecyclerView = rv_friends.apply {
             layoutManager = LinearLayoutManager(activity)
             setHasFixedSize(true)
             adapter = friendsAdapter
         }
-
-        return rootView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

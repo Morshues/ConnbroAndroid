@@ -22,10 +22,14 @@ object DateUtils {
         return sdf.format(birthDate.time)
     }
 
-    fun toSqlDate(dateStr: CharSequence): java.sql.Date {
+    fun toSqlDate(dateStr: CharSequence): java.sql.Date? {
         val sdf = SimpleDateFormat.getDateInstance()
-        val date = sdf.parse(dateStr.toString())
-        return java.sql.Date(date.time)
+        return try {
+            val date = sdf.parse(dateStr.toString())
+            java.sql.Date(date.time)
+        } catch (e: ParseException) {
+            null
+        }
     }
 
 }

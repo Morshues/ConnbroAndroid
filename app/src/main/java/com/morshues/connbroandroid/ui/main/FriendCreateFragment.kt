@@ -48,6 +48,19 @@ class FriendCreateFragment : Fragment() {
 
         return rootView
     }
+    
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        tv_birth.setOnClickListener {
+            val activity = activity?: return@setOnClickListener
+            val c = DateUtils.toCalender(tv_birth.text)
+            val dlg = DatePickerDialog(activity,
+                DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                    tv_birth.text = DateUtils.toString(year, month, dayOfMonth)
+                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH))
+            dlg.show()
+        }
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -55,19 +68,6 @@ class FriendCreateFragment : Fragment() {
             this,
             viewModelFactory { FriendCreateViewModel(mRepository) }
         ).get(FriendCreateViewModel::class.java)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        tv_birth.setOnClickListener {
-            val c = DateUtils.toCalender(tv_birth.text)
-            val activity = activity?: return@setOnClickListener
-            val dlg = DatePickerDialog(activity,
-                DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                    tv_birth.text = DateUtils.toString(year, month, dayOfMonth)
-                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH))
-            dlg.show()
-        }
     }
 
     override fun onDetach() {
