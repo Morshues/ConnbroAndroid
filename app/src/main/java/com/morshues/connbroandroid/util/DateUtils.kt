@@ -22,6 +22,11 @@ object DateUtils {
         return sdf.format(birthDate.time)
     }
 
+    fun toSqlDate(year: Int, month: Int, dayOfMonth: Int): java.sql.Date {
+        val birthDate = GregorianCalendar(year, month, dayOfMonth)
+        return java.sql.Date(birthDate.timeInMillis)
+    }
+
     fun toSqlDate(dateStr: CharSequence): java.sql.Date? {
         val sdf = SimpleDateFormat.getDateInstance()
         return try {

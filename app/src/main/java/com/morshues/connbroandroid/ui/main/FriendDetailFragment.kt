@@ -1,5 +1,6 @@
 package com.morshues.connbroandroid.ui.main
 
+import android.app.DatePickerDialog
 import android.content.Context
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -7,12 +8,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.lifecycle.Observer
 
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.db.model.PersonDetail
 import com.morshues.connbroandroid.repo.ConnbroRepository
+import com.morshues.connbroandroid.util.DateUtils
 import kotlinx.android.synthetic.main.fragment_friend_detail.*
+import java.util.*
 
 private const val ARG_FRIEND_ID = "argFriendId"
 
@@ -47,6 +51,20 @@ class FriendDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_friend_detail, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        tv_birthday.setOnClickListener { textView ->
+            if (textView !is TextView) return@setOnClickListener
+            val activity = activity?: return@setOnClickListener
+            val c = DateUtils.toCalender(textView.text)
+            val dlg = DatePickerDialog(activity,
+                DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                    viewModel.updateBirthday(DateUtils.toSqlDate(year, month, dayOfMonth))
+                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH))
+            dlg.show()
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
