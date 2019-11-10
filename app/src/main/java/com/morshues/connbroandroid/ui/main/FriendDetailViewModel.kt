@@ -12,6 +12,12 @@ class FriendDetailViewModel(
 ) : ViewModel() {
     val friendData: LiveData<PersonDetail> = mRepository.getPerson(friendId)
 
+    fun updateFirstName(firstName: String) {
+        val friend = friendData.value?.person?: return
+        friend.firstName = firstName
+        mRepository.updatePerson(friend)
+    }
+
     fun updateBirthday(date: Date?) {
         val friend = friendData.value?.person?: return
         friend.birthday = date

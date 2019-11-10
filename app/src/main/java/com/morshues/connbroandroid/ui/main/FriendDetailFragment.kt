@@ -1,5 +1,6 @@
 package com.morshues.connbroandroid.ui.main
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import androidx.lifecycle.ViewModelProviders
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.Observer
 
@@ -55,6 +57,21 @@ class FriendDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        tv_first_name.setOnClickListener { textView ->
+            if (textView !is TextView) return@setOnClickListener
+            val activity = activity?: return@setOnClickListener
+            val builder = AlertDialog.Builder(activity).apply {
+                setTitle(R.string.first_name)
+                val input = EditText(activity)
+                input.setText(textView.text)
+                setView(input)
+                setPositiveButton("OK") { dialog, _ ->
+                    viewModel.updateFirstName(input.text.toString())
+                    dialog.dismiss()
+                }
+            }
+            builder.create().show()
+        }
         tv_birthday.setOnClickListener { textView ->
             if (textView !is TextView) return@setOnClickListener
             val activity = activity?: return@setOnClickListener
