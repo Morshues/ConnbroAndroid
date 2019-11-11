@@ -4,10 +4,8 @@ import android.app.DatePickerDialog
 import android.content.Context
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
 
@@ -32,6 +30,7 @@ class FriendDetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         arguments?.let {
             friendId = it.getLong(ARG_FRIEND_ID)
         }
@@ -118,6 +117,21 @@ class FriendDetailFragment : Fragment() {
             tv_birthday.text = person.birthday.toString()
             tv_note.text = person.note
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
+        inflater.inflate(R.menu.friend_detail, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_add_info -> {
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onDetach() {

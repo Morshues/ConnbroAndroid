@@ -3,10 +3,8 @@ package com.morshues.connbroandroid.ui.main
 import android.content.Context
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.google.android.material.snackbar.Snackbar
 import com.morshues.connbroandroid.Page
 import com.morshues.connbroandroid.R
@@ -14,6 +12,7 @@ import com.morshues.connbroandroid.db.model.Person
 import com.morshues.connbroandroid.repo.ConnbroRepository
 import kotlinx.android.synthetic.main.fragment_friend_create.view.*
 import android.app.DatePickerDialog
+import android.view.inputmethod.InputMethodManager
 import com.morshues.connbroandroid.util.DateUtils
 import kotlinx.android.synthetic.main.fragment_friend_create.*
 import java.util.*
@@ -25,6 +24,11 @@ class FriendCreateFragment : Fragment() {
 
     private lateinit var rootView: View
     private lateinit var viewModel: FriendCreateViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -41,11 +45,6 @@ class FriendCreateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_friend_create, container, false)
-
-        rootView.btn_create_friend.setOnClickListener {
-            createFriend()
-        }
-
         return rootView
     }
     
@@ -70,12 +69,34 @@ class FriendCreateFragment : Fragment() {
         ).get(FriendCreateViewModel::class.java)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
+        inflater.inflate(R.menu.friend_create, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_save -> {
+                createFriend()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onDetach() {
         super.onDetach()
         mListener = null
     }
 
     private fun createFriend() {
+        view?.let { v ->
+            val imm =
+                activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(v.windowToken, 0)
+        }
+
         rootView.apply {
             val newFriend = Person(
                 firstName = et_first_name.text.toString().trim(),

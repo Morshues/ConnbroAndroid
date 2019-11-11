@@ -11,5 +11,8 @@
     <string name="no_note">No Note</string>
     <string name="touch_to_input">(Touch to input)</string>
 
+    <string name="menu_friend_save">Save</string>
+    <string name="menu_friend_add_inform">Add Information</string>
+
     <string name="create_friend">Add New Friend</string>
 </resources>
