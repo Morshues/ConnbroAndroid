@@ -18,9 +18,33 @@ class FriendDetailViewModel(
         mRepository.updatePerson(friend)
     }
 
+    fun updateMidName(midName: String) {
+        val friend = friendData.value?.person?: return
+        friend.midName = midName
+        mRepository.updatePerson(friend)
+    }
+
+    fun updateLastName(lastName: String) {
+        val friend = friendData.value?.person?: return
+        friend.lastName = lastName
+        mRepository.updatePerson(friend)
+    }
+
+    fun updateNickName(nickName: String) {
+        val friend = friendData.value?.person?: return
+        friend.nickName = nickName
+        mRepository.updatePerson(friend)
+    }
+
     fun updateBirthday(date: Date?) {
         val friend = friendData.value?.person?: return
         friend.birthday = date
+        mRepository.updatePerson(friend)
+    }
+
+    fun updateNote(note: String) {
+        val friend = friendData.value?.person?: return
+        friend.note = note
         mRepository.updatePerson(friend)
     }
 }

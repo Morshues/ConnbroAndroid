@@ -1,6 +1,5 @@
 package com.morshues.connbroandroid.ui.main
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import androidx.lifecycle.ViewModelProviders
@@ -9,13 +8,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.Observer
 
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.db.model.PersonDetail
 import com.morshues.connbroandroid.repo.ConnbroRepository
+import com.morshues.connbroandroid.util.ContentEditUtils
 import com.morshues.connbroandroid.util.DateUtils
 import kotlinx.android.synthetic.main.fragment_friend_detail.*
 import java.util.*
@@ -60,17 +59,30 @@ class FriendDetailFragment : Fragment() {
         tv_first_name.setOnClickListener { textView ->
             if (textView !is TextView) return@setOnClickListener
             val activity = activity?: return@setOnClickListener
-            val builder = AlertDialog.Builder(activity).apply {
-                setTitle(R.string.first_name)
-                val input = EditText(activity)
-                input.setText(textView.text)
-                setView(input)
-                setPositiveButton("OK") { dialog, _ ->
-                    viewModel.updateFirstName(input.text.toString())
-                    dialog.dismiss()
-                }
+            ContentEditUtils.editTextDialog(activity, textView, R.string.first_name) {
+                viewModel.updateFirstName(it)
             }
-            builder.create().show()
+        }
+        tv_mid_name.setOnClickListener { textView ->
+            if (textView !is TextView) return@setOnClickListener
+            val activity = activity?: return@setOnClickListener
+            ContentEditUtils.editTextDialog(activity, textView, R.string.mid_name) {
+                viewModel.updateMidName(it)
+            }
+        }
+        tv_last_name.setOnClickListener { textView ->
+            if (textView !is TextView) return@setOnClickListener
+            val activity = activity?: return@setOnClickListener
+            ContentEditUtils.editTextDialog(activity, textView, R.string.last_name) {
+                viewModel.updateLastName(it)
+            }
+        }
+        tv_nick_name.setOnClickListener { textView ->
+            if (textView !is TextView) return@setOnClickListener
+            val activity = activity?: return@setOnClickListener
+            ContentEditUtils.editTextDialog(activity, textView, R.string.nick_name) {
+                viewModel.updateNickName(it)
+            }
         }
         tv_birthday.setOnClickListener { textView ->
             if (textView !is TextView) return@setOnClickListener
@@ -81,6 +93,13 @@ class FriendDetailFragment : Fragment() {
                     viewModel.updateBirthday(DateUtils.toSqlDate(year, month, dayOfMonth))
                 }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH))
             dlg.show()
+        }
+        tv_note.setOnClickListener { textView ->
+            if (textView !is TextView) return@setOnClickListener
+            val activity = activity?: return@setOnClickListener
+            ContentEditUtils.editTextDialog(activity, textView, R.string.note, false) {
+                viewModel.updateNote(it)
+            }
         }
     }
 
