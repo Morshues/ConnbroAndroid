@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.morshues.connbroandroid.db.ConnbroDatabase
-import com.morshues.connbroandroid.db.model.Characteristic
+import com.morshues.connbroandroid.db.model.PersonalInfo
 import com.morshues.connbroandroid.db.model.Person
 import com.morshues.connbroandroid.db.model.User
 import org.junit.Assert
@@ -63,16 +63,16 @@ class ConnbroDatabaseTest {
             nickName = "DJ",
             birthday = Date(1985, 3, 8)
         )
-        db.personDao().let {
-            val id = it.insert(person)
-            it.get(id).observeOnce {
+        db.personDao().apply {
+            val id = insert(person)
+            get(id).observeOnce {
                 Assert.assertEquals(person.firstName, it.person.firstName)
             }
         }
     }
 
     @Test
-    fun should_Insert_Characteristic_Item() {
+    fun should_Insert_PersonalInfo_Item() {
         val person = Person(
             userId = testUser.id,
             firstName = "David",
@@ -83,14 +83,14 @@ class ConnbroDatabaseTest {
         )
         val personId = db.personDao().insert(person)
 
-        val c1 = Characteristic(
+        val c1 = PersonalInfo(
             userId = testUser.id,
-            description = "Love to eat",
+            title = "Love to eat",
             personId = personId
         )
-        val c2 = Characteristic(
+        val c2 = PersonalInfo(
             userId = testUser.id,
-            description = "Flat fire",
+            title = "Flat fire",
             personId = personId
         )
         db.charDao().let {

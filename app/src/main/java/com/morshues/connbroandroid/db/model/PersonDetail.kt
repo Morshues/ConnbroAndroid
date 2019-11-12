@@ -7,6 +7,6 @@ class PersonDetail(
     @Embedded
     val person: Person,
 
-    @Relation(parentColumn = "id", entityColumn = "person_id", entity = Characteristic::class)
-    val characteristics: List<Characteristic>
+    @Relation(parentColumn = "id", entityColumn = "person_id", entity = PersonalInfo::class)
+    val infos: List<PersonalInfo>
 )

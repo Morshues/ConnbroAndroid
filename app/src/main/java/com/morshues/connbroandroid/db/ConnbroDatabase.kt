@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.morshues.connbroandroid.db.dao.CharacteristicDao
+import com.morshues.connbroandroid.db.dao.PersonalInfoDao
 import com.morshues.connbroandroid.db.dao.PersonDao
 import com.morshues.connbroandroid.db.dao.UserDao
 import com.morshues.connbroandroid.db.model.*
@@ -15,7 +15,7 @@ import com.morshues.connbroandroid.db.model.*
         User::class,
         Person::class,
         Relationship::class,
-        Characteristic::class,
+        PersonalInfo::class,
         Group::class,
         GroupMember::class,
         Place::class,
@@ -27,7 +27,7 @@ import com.morshues.connbroandroid.db.model.*
 abstract class ConnbroDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun personDao(): PersonDao
-    abstract fun charDao(): CharacteristicDao
+    abstract fun charDao(): PersonalInfoDao
 
     companion object {
         @Volatile
