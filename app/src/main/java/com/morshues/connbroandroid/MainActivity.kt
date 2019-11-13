@@ -16,12 +16,9 @@ sealed class Page {
 
 class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
 
-    private lateinit var mRepository: ConnbroRepository
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mRepository = ConnbroRepository(application)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, MainFragment.newInstance())
@@ -51,7 +48,7 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
 
     // OnFragmentInteractionListener
     override fun getRepository(): ConnbroRepository {
-        return mRepository
+        return (application as App).mRepository
     }
 
 }
