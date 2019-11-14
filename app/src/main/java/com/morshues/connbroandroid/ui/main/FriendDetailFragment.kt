@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.TextView
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.db.model.PersonDetail
+import com.morshues.connbroandroid.db.model.PersonalInfo
 import com.morshues.connbroandroid.repo.ConnbroRepository
 import com.morshues.connbroandroid.util.ContentEditUtils
 import com.morshues.connbroandroid.util.DateUtils
@@ -25,6 +27,8 @@ class FriendDetailFragment : Fragment() {
     private lateinit var mRepository: ConnbroRepository
 
     private var mListener: OnFragmentInteractionListener? = null
+    private var mRecyclerView: RecyclerView? = null
+    private var detailAdapter: PersonalInfoAdapter? = null
 
     private lateinit var viewModel: FriendDetailViewModel
 
@@ -55,50 +59,58 @@ class FriendDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tv_first_name.setOnClickListener { textView ->
-            if (textView !is TextView) return@setOnClickListener
-            val activity = activity?: return@setOnClickListener
-            ContentEditUtils.editTextDialog(activity, textView, R.string.first_name) {
-                viewModel.updateFirstName(it)
+
+        detailAdapter = PersonalInfoAdapter()
+        detailAdapter!!.setOnItemClickListener(object : PersonalInfoAdapter.OnItemClickListener{
+            override fun onFirstNameClick(firstName: String) {
+                val activity = activity?: return
+                ContentEditUtils.editTextDialog(activity, firstName, R.string.first_name) {
+                    viewModel.updateFirstName(it)
+                }
             }
-        }
-        tv_mid_name.setOnClickListener { textView ->
-            if (textView !is TextView) return@setOnClickListener
-            val activity = activity?: return@setOnClickListener
-            ContentEditUtils.editTextDialog(activity, textView, R.string.mid_name) {
-                viewModel.updateMidName(it)
+            override fun onMidNameClick(midName: String) {
+                val activity = activity?: return
+                ContentEditUtils.editTextDialog(activity, midName, R.string.mid_name) {
+                    viewModel.updateMidName(it)
+                }
             }
-        }
-        tv_last_name.setOnClickListener { textView ->
-            if (textView !is TextView) return@setOnClickListener
-            val activity = activity?: return@setOnClickListener
-            ContentEditUtils.editTextDialog(activity, textView, R.string.last_name) {
-                viewModel.updateLastName(it)
+            override fun onLastNameClick(lastName: String) {
+                val activity = activity?: return
+                ContentEditUtils.editTextDialog(activity, lastName, R.string.last_name) {
+                    viewModel.updateLastName(it)
+                }
             }
-        }
-        tv_nick_name.setOnClickListener { textView ->
-            if (textView !is TextView) return@setOnClickListener
-            val activity = activity?: return@setOnClickListener
-            ContentEditUtils.editTextDialog(activity, textView, R.string.nick_name) {
-                viewModel.updateNickName(it)
+            override fun onNickNameClick(nickName: String) {
+                val activity = activity?: return
+                ContentEditUtils.editTextDialog(activity, nickName, R.string.nick_name) {
+                    viewModel.updateNickName(it)
+                }
             }
-        }
-        tv_birthday.setOnClickListener { textView ->
-            if (textView !is TextView) return@setOnClickListener
-            val activity = activity?: return@setOnClickListener
-            val c = DateUtils.toCalender(textView.text)
-            val dlg = DatePickerDialog(activity,
-                DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                    viewModel.updateBirthday(DateUtils.toSqlDate(year, month, dayOfMonth))
-                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH))
-            dlg.show()
-        }
-        tv_note.setOnClickListener { textView ->
-            if (textView !is TextView) return@setOnClickListener
-            val activity = activity?: return@setOnClickListener
-            ContentEditUtils.editTextDialog(activity, textView, R.string.note, false) {
-                viewModel.updateNote(it)
+            override fun onBirthdayClick(birthday: String) {
+                val activity = activity?: return
+                val c = DateUtils.toCalender(birthday)
+                val dlg = DatePickerDialog(activity,
+                    DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                        viewModel.updateBirthday(DateUtils.toSqlDate(year, month, dayOfMonth))
+                    }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)
+                )
+                dlg.show()
             }
+            override fun onNoteClick(note: String) {
+                val activity = activity?: return
+                ContentEditUtils.editTextDialog(activity, note, R.string.note) {
+                    viewModel.updateNote(it)
+                }
+            }
+            override fun onItemClick(person: PersonalInfo) {
+                // TODO
+            }
+        })
+
+        mRecyclerView = rv_person_detail.apply {
+            layoutManager = LinearLayoutManager(activity)
+            setHasFixedSize(true)
+            adapter = detailAdapter
         }
     }
 
@@ -109,13 +121,7 @@ class FriendDetailFragment : Fragment() {
             viewModelFactory { FriendDetailViewModel(mRepository, friendId!!) }
         ).get(FriendDetailViewModel::class.java)
         viewModel.friendData.observe(viewLifecycleOwner, Observer<PersonDetail> {
-            val person = it.person
-            tv_first_name.text = person.firstName
-            tv_mid_name.text = person.midName
-            tv_last_name.text = person.lastName
-            tv_nick_name.text = person.nickName
-            tv_birthday.text = person.birthday.toString()
-            tv_note.text = person.note
+            detailAdapter?.setPersonalInfo(it)
         })
     }
 
@@ -128,6 +134,10 @@ class FriendDetailFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_add_info -> {
+                val activity = activity?: return false
+                ContentEditUtils.addPersonalInfoDialog(activity) { title, description ->
+                    viewModel.insertInfo(title, description)
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)

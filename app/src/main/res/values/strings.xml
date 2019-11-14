@@ -14,5 +14,9 @@
     <string name="menu_friend_save">Save</string>
     <string name="menu_friend_add_inform">Add Information</string>
 
+    <string name="personal_info_title">Title</string>
+    <string name="personal_info_description">Description</string>
+    <string name="personal_info_known_at">Known At</string>
+
     <string name="create_friend">Add New Friend</string>
 </resources>

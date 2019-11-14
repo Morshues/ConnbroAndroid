@@ -33,5 +33,5 @@ data class PersonalInfo(
     @ColumnInfo(name = "description") var description: String = "",
     @ColumnInfo(name = "source_id") var sourceId: Long? = null,
     @ColumnInfo(name = "known_at") var knownAt: Date? = Date(System.currentTimeMillis()),
-    @ColumnInfo(name = "discard_ad") var discardAt: Date? = null
+    @ColumnInfo(name = "discard_at") var discardAt: Date? = null
 )

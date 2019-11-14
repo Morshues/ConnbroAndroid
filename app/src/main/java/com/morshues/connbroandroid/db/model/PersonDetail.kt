@@ -8,5 +8,5 @@ class PersonDetail(
     val person: Person,
 
     @Relation(parentColumn = "id", entityColumn = "person_id", entity = PersonalInfo::class)
-    val infos: List<PersonalInfo>
+    val info: List<PersonalInfo>
 )

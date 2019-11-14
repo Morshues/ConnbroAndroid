@@ -93,7 +93,7 @@ class ConnbroDatabaseTest {
             title = "Flat fire",
             personId = personId
         )
-        db.charDao().let {
+        db.personalInfoDao().let {
             val c1Id = it.insert(c1)
             val charTest1 = it.get(c1Id)
             Assert.assertEquals(c1.description, charTest1.description)

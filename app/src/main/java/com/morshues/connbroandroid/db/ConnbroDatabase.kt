@@ -27,7 +27,7 @@ import com.morshues.connbroandroid.db.model.*
 abstract class ConnbroDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun personDao(): PersonDao
-    abstract fun charDao(): PersonalInfoDao
+    abstract fun personalInfoDao(): PersonalInfoDao
 
     companion object {
         @Volatile

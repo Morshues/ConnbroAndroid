@@ -3,6 +3,7 @@ package com.morshues.connbroandroid.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.morshues.connbroandroid.db.model.PersonDetail
+import com.morshues.connbroandroid.db.model.PersonalInfo
 import com.morshues.connbroandroid.repo.ConnbroRepository
 import java.sql.Date
 
@@ -46,5 +47,16 @@ class FriendDetailViewModel(
         val friend = friendData.value?.person?: return
         friend.note = note
         mRepository.updatePerson(friend)
+    }
+
+    fun insertInfo(title: String, description: String) {
+        val friend = friendData.value?.person?: return
+        val info = PersonalInfo(
+            userId = friend.userId,
+            personId = friend.id,
+            title = title,
+            description = description
+        )
+        mRepository.insertPersonalInfo(info)
     }
 }
