@@ -71,4 +71,10 @@ class ConnbroRepository(application: Application) {
             personalInfoDao.insert(info)
         }
     }
+
+    fun updatePersonalInfo(info: PersonalInfo) = runBlocking {
+        launch(Dispatchers.IO) {
+            personalInfoDao.update(info)
+        }
+    }
 }

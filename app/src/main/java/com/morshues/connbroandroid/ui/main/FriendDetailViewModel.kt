@@ -59,4 +59,8 @@ class FriendDetailViewModel(
         )
         mRepository.insertPersonalInfo(info)
     }
+
+    fun updateInfo(info: PersonalInfo) {
+        mRepository.updatePersonalInfo(info)
+    }
 }

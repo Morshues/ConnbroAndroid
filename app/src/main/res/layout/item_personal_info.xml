@@ -2,9 +2,11 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true">
 
     <RelativeLayout
+            android:id="@+id/lyt_show"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="8dp">
@@ -16,5 +18,49 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 tools:text="Info Title" />
     </RelativeLayout>
+
+    <LinearLayout
+            android:id="@+id/lyt_edit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:visibility="gone">
+
+        <TextView
+                android:id="@+id/l_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/personal_info_title" />
+
+        <EditText
+                android:id="@+id/et_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp" />
+
+        <TextView
+                android:id="@+id/l_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/personal_info_description" />
+
+        <EditText
+                android:id="@+id/et_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp" />
+
+        <Button
+                android:id="@+id/btn_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@string/confirm"
+                android:layout_margin="8dp" />
+
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

@@ -1,9 +1,6 @@
 package com.morshues.connbroandroid.db.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.morshues.connbroandroid.db.model.PersonalInfo
 
 @Dao
@@ -19,6 +16,9 @@ interface PersonalInfoDao {
 
     @Insert
     fun insert(info: PersonalInfo): Long
+
+    @Update
+    fun update(info: PersonalInfo)
 
     @Delete
     fun delete(info: PersonalInfo)

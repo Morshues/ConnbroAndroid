@@ -102,8 +102,8 @@ class FriendDetailFragment : Fragment() {
                     viewModel.updateNote(it)
                 }
             }
-            override fun onItemClick(person: PersonalInfo) {
-                // TODO
+            override fun onInfoUpdate(info: PersonalInfo) {
+                viewModel.updateInfo(info)
             }
         })
 

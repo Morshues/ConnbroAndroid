@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">ConnbroAndroid</string>
 
+    <string name="confirm">Confirm</string>
+
     <string name="last_name">Last Name</string>
     <string name="mid_name">Mid Name</string>
     <string name="first_name">First Name</string>

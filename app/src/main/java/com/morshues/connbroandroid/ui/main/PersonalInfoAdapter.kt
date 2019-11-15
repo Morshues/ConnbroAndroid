@@ -3,6 +3,7 @@ package com.morshues.connbroandroid.ui.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.morshues.connbroandroid.R
@@ -58,6 +59,8 @@ class PersonalInfoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         } else if (holder is PersonalInfoHolder){
             val currentInfo = info[position-1]
             holder.tvTitle.text = currentInfo.title
+            holder.etTitle.text = currentInfo.title
+            holder.etDescription.text = currentInfo.description
         }
     }
 
@@ -91,19 +94,34 @@ class PersonalInfoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     inner class PersonalInfoHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private var lytShow: ViewGroup = itemView.findViewById(R.id.lyt_show)
+        private var lytEdit: ViewGroup = itemView.findViewById(R.id.lyt_edit)
         var tvTitle: TextView = itemView.findViewById(R.id.tv_title)
+        var etTitle: TextView = itemView.findViewById(R.id.et_title)
+        var etDescription: TextView = itemView.findViewById(R.id.et_description)
+        private var btnConfirm: Button = itemView.findViewById(R.id.btn_confirm)
         init {
-            itemView.setOnClickListener {
+            lytShow.setOnLongClickListener {
+                lytShow.visibility = View.GONE
+                lytEdit.visibility = View.VISIBLE
+                true
+            }
+            btnConfirm.setOnClickListener {
+                lytShow.visibility = View.VISIBLE
+                lytEdit.visibility = View.GONE
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    mOnItemClickListener?.onItemClick(info[position-1])
+                    val info = info[position-1]
+                    info.title = etTitle.text.toString()
+                    info.description = etDescription.text.toString()
+                    mOnItemClickListener?.onInfoUpdate(info)
                 }
             }
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClick(person: PersonalInfo)
+        fun onInfoUpdate(info: PersonalInfo)
         fun onFirstNameClick(firstName: String)
         fun onMidNameClick(midName: String)
         fun onLastNameClick(lastName: String)
