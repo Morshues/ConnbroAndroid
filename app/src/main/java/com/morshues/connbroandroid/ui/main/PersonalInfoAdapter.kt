@@ -5,7 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.db.model.Person
 import com.morshues.connbroandroid.db.model.PersonDetail
@@ -102,6 +105,7 @@ class PersonalInfoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private var btnConfirm: Button = itemView.findViewById(R.id.btn_confirm)
         init {
             lytShow.setOnLongClickListener {
+                TransitionManager.beginDelayedTransition(itemView as CardView, AutoTransition())
                 lytShow.visibility = View.GONE
                 lytEdit.visibility = View.VISIBLE
                 true
