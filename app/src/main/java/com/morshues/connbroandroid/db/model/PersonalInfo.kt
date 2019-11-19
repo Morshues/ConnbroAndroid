@@ -31,7 +31,7 @@ data class PersonalInfo(
     @ColumnInfo(name = "person_id", index = true) var personId: Long,
     @ColumnInfo(name = "title") var title: String,
     @ColumnInfo(name = "description") var description: String = "",
-    @ColumnInfo(name = "source_id") var sourceId: Long? = null,
+    @ColumnInfo(name = "source_id", index = true) var sourceId: Long? = null,
     @ColumnInfo(name = "known_at") var knownAt: Date? = Date(System.currentTimeMillis()),
     @ColumnInfo(name = "discard_at") var discardAt: Date? = null
 )

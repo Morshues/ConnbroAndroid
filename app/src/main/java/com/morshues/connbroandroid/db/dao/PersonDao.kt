@@ -7,9 +7,11 @@ import com.morshues.connbroandroid.db.model.PersonDetail
 
 @Dao
 interface PersonDao {
+    @Transaction
     @Query("SELECT * FROM person WHERE id = :id")
     fun get(id: Long): LiveData<PersonDetail>
 
+    @Transaction
     @Query("SELECT * FROM person")
     fun getAll(): LiveData<List<PersonDetail>>
 
