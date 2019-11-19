@@ -16,6 +16,7 @@
 
     <string name="menu_friend_save">Save</string>
     <string name="menu_friend_add_inform">Add Information</string>
+    <string name="menu_friend_add_event">Add Event</string>
 
     <string name="personal_info_title">Title</string>
     <string name="personal_info_description">Description</string>

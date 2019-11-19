@@ -26,10 +26,11 @@ import java.sql.Date
     ])
 data class Event(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    @ColumnInfo(name = "user_id", index = true) val userId: Long,
-    @ColumnInfo(name = "start_time") val startTime: Date,
-    @ColumnInfo(name = "end_time") val endTime: Date,
-    @ColumnInfo(name = "description") val description: String,
-    @ColumnInfo(name = "place_id", index = true) val placeId: Long,
-    @ColumnInfo(name = "parent_event_id", index = true) val parentEventId: Long?
+    @ColumnInfo(name = "user_id", index = true) var userId: Long,
+    @ColumnInfo(name = "start_time") var startTime: Date,
+    @ColumnInfo(name = "end_time") var endTime: Date,
+    @ColumnInfo(name = "title") var title: String,
+    @ColumnInfo(name = "description") var description: String,
+    @ColumnInfo(name = "place_id", index = true) var placeId: Long? = null,
+    @ColumnInfo(name = "parent_event_id", index = true) var parentEventId: Long? = null
 )

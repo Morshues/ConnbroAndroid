@@ -5,9 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.morshues.connbroandroid.db.dao.PersonalInfoDao
-import com.morshues.connbroandroid.db.dao.PersonDao
-import com.morshues.connbroandroid.db.dao.UserDao
+import com.morshues.connbroandroid.db.dao.*
 import com.morshues.connbroandroid.db.model.*
 
 @Database(
@@ -28,6 +26,8 @@ abstract class ConnbroDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun personDao(): PersonDao
     abstract fun personalInfoDao(): PersonalInfoDao
+    abstract fun eventDao(): EventDao
+    abstract fun eventAttendeeDao(): EventAttendeeDao
 
     companion object {
         @Volatile

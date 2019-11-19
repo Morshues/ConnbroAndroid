@@ -18,7 +18,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         <include
-                android:id="@+id/lyt_create_info"
+                android:id="@+id/lyt_create_event"
                 layout="@layout/partial_personal_info_editing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -28,7 +28,26 @@
                 app:layout_constraintTop_toBottomOf="@id/lyt_detail" />
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_person_detail"
+                android:id="@+id/rv_events"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lyt_create_event"
+                tools:listitem="@layout/item_personal_event" />
+
+        <include
+                android:id="@+id/lyt_create_info"
+                layout="@layout/partial_personal_info_editing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rv_events" />
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_person_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"

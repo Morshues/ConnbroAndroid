@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 
 import com.morshues.connbroandroid.R
+import com.morshues.connbroandroid.db.model.Event
 import com.morshues.connbroandroid.db.model.PersonDetail
 import com.morshues.connbroandroid.db.model.PersonalInfo
 import com.morshues.connbroandroid.repo.ConnbroRepository
@@ -32,8 +33,10 @@ class FriendDetailFragment : Fragment() {
     private lateinit var mRepository: ConnbroRepository
 
     private var mListener: OnFragmentInteractionListener? = null
-    private var mRecyclerView: RecyclerView? = null
-    private var detailAdapter: PersonalInfoAdapter? = null
+    private var eventRecyclerView: RecyclerView? = null
+    private var eventAdapter: PersonalEventsAdapter? = null
+    private var infoRecyclerView: RecyclerView? = null
+    private var infoAdapter: PersonalInfoAdapter? = null
 
     private lateinit var viewModel: FriendDetailViewModel
 
@@ -110,6 +113,36 @@ class FriendDetailFragment : Fragment() {
             }
         }
 
+        lyt_create_event.apply {
+            btn_cancel.setOnClickListener {
+                et_title.setText("")
+                et_description.setText("")
+                visibility = View.GONE
+            }
+            btn_confirm.setOnClickListener {
+                if (et_title.text.toString().isBlank()) {
+                    Snackbar.make(it, R.string.msg_title_cannot_be_null, Snackbar.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                viewModel.insertEvent(et_title.text.toString(), et_description.text.toString())
+                et_title.setText("")
+                et_description.setText("")
+                visibility = View.GONE
+            }
+        }
+
+        eventAdapter = PersonalEventsAdapter()
+        eventAdapter!!.setOnItemClickListener(object : PersonalEventsAdapter.OnItemClickListener{
+            override fun onEventUpdate(event: Event) {
+                viewModel.updateEvent(event)
+            }
+        })
+
+        eventRecyclerView = rv_events.apply {
+            layoutManager = LinearLayoutManager(activity)
+            adapter = eventAdapter
+        }
+
         lyt_create_info.apply {
             btn_cancel.setOnClickListener {
                 et_title.setText("")
@@ -128,16 +161,16 @@ class FriendDetailFragment : Fragment() {
             }
         }
 
-        detailAdapter = PersonalInfoAdapter()
-        detailAdapter!!.setOnItemClickListener(object : PersonalInfoAdapter.OnItemClickListener{
+        infoAdapter = PersonalInfoAdapter()
+        infoAdapter!!.setOnItemClickListener(object : PersonalInfoAdapter.OnItemClickListener{
             override fun onInfoUpdate(info: PersonalInfo) {
                 viewModel.updateInfo(info)
             }
         })
 
-        mRecyclerView = rv_person_detail.apply {
+        infoRecyclerView = rv_person_info.apply {
             layoutManager = LinearLayoutManager(activity)
-            adapter = detailAdapter
+            adapter = infoAdapter
         }
     }
 
@@ -155,7 +188,8 @@ class FriendDetailFragment : Fragment() {
             tv_nick_name.text = person.nickName
             tv_birthday.text = person.birthday.toString()
             tv_note.text = person.note
-            detailAdapter?.submitList(it.sortedInfo())
+            eventAdapter?.submitList(it.events)
+            infoAdapter?.submitList(it.sortedInfo())
         })
 
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
@@ -172,10 +206,10 @@ class FriendDetailFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                viewModel.deleteInfo(detailAdapter!!.getInfoAt(position))
+                viewModel.deleteInfo(infoAdapter!!.getInfoAt(position))
                 Snackbar.make(viewHolder.itemView, "Deleted", Snackbar.LENGTH_SHORT).show()
             }
-        }).attachToRecyclerView(mRecyclerView)
+        }).attachToRecyclerView(infoRecyclerView)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -188,6 +222,10 @@ class FriendDetailFragment : Fragment() {
         return when (item.itemId) {
             R.id.action_add_info -> {
                 lyt_create_info.visibility = View.VISIBLE
+                true
+            }
+            R.id.action_add_event -> {
+                lyt_create_event.visibility = View.VISIBLE
                 true
             }
             else -> super.onOptionsItemSelected(item)

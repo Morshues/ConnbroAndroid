@@ -3,13 +3,8 @@ package com.morshues.connbroandroid.repo
 import android.app.Application
 import androidx.lifecycle.LiveData
 import com.morshues.connbroandroid.db.ConnbroDatabase
-import com.morshues.connbroandroid.db.dao.PersonDao
-import com.morshues.connbroandroid.db.dao.PersonalInfoDao
-import com.morshues.connbroandroid.db.dao.UserDao
-import com.morshues.connbroandroid.db.model.Person
-import com.morshues.connbroandroid.db.model.PersonDetail
-import com.morshues.connbroandroid.db.model.PersonalInfo
-import com.morshues.connbroandroid.db.model.User
+import com.morshues.connbroandroid.db.dao.*
+import com.morshues.connbroandroid.db.model.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,6 +14,8 @@ class ConnbroRepository(application: Application) {
     private val userDao: UserDao
     private var personDao: PersonDao
     private var personalInfoDao: PersonalInfoDao
+    private var eventDao: EventDao
+    private var eventAttendeeDao: EventAttendeeDao
     private var friends: LiveData<List<PersonDetail>>
 
     private lateinit var currentUser: User
@@ -28,6 +25,8 @@ class ConnbroRepository(application: Application) {
         userDao = database.userDao()
         personDao = database.personDao()
         personalInfoDao = database.personalInfoDao()
+        eventDao = database.eventDao()
+        eventAttendeeDao = database.eventAttendeeDao()
         friends = personDao.getAll()
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -81,6 +80,24 @@ class ConnbroRepository(application: Application) {
     fun deletePersonalInfo(info: PersonalInfo) = runBlocking {
         launch(Dispatchers.IO) {
             personalInfoDao.delete(info)
+        }
+    }
+
+    fun insertEvent(event: Event, friend: Person) = runBlocking {
+        launch(Dispatchers.IO) {
+            val id = eventDao.insert(event)
+            val attendee = EventAttendee(
+                userId = friend.userId,
+                personId = friend.id,
+                eventId = id
+            )
+            eventAttendeeDao.insert(attendee)
+        }
+    }
+
+    fun updateEvent(event: Event) = runBlocking {
+        launch(Dispatchers.IO) {
+            eventDao.update(event)
         }
     }
 }

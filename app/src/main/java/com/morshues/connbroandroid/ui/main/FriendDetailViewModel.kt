@@ -2,6 +2,8 @@ package com.morshues.connbroandroid.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.morshues.connbroandroid.db.model.Event
+import com.morshues.connbroandroid.db.model.EventAttendee
 import com.morshues.connbroandroid.db.model.PersonDetail
 import com.morshues.connbroandroid.db.model.PersonalInfo
 import com.morshues.connbroandroid.repo.ConnbroRepository
@@ -67,4 +69,21 @@ class FriendDetailViewModel(
     fun deleteInfo(info: PersonalInfo) {
         mRepository.deletePersonalInfo(info)
     }
+
+    fun insertEvent(title: String, description: String) {
+        val friend = friendData.value?.person?: return
+        val event = Event(
+            userId = friend.userId,
+            startTime = Date(System.currentTimeMillis()),
+            endTime = Date(System.currentTimeMillis()),
+            title = title,
+            description = description
+        )
+        mRepository.insertEvent(event, friend)
+    }
+
+    fun updateEvent(event: Event) {
+        mRepository.updateEvent(event)
+    }
+
 }

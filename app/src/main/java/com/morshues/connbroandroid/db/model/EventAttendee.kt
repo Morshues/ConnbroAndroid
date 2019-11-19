@@ -1,11 +1,9 @@
 package com.morshues.connbroandroid.db.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 @Entity(
+    tableName = "event_attendee",
     foreignKeys = [
         ForeignKey(entity = User::class,
             parentColumns = ["id"],
@@ -27,5 +25,5 @@ data class EventAttendee(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     @ColumnInfo(name = "user_id", index = true) val userId: Long,
     @ColumnInfo(name = "person_id", index = true) val personId: Long,
-    @ColumnInfo(name = "event_id", index = true) val parentEventId: Long
+    @ColumnInfo(name = "event_id", index = true) val eventId: Long
 )
