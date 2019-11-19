@@ -9,4 +9,8 @@ class PersonDetail(
 
     @Relation(parentColumn = "id", entityColumn = "person_id", entity = PersonalInfo::class)
     val info: List<PersonalInfo>
-)
+) {
+    fun sortedInfo(): List<PersonalInfo> {
+        return info.sortedByDescending { it.id }
+    }
+}

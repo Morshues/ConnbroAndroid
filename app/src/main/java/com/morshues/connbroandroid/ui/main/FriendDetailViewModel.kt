@@ -63,4 +63,8 @@ class FriendDetailViewModel(
     fun updateInfo(info: PersonalInfo) {
         mRepository.updatePersonalInfo(info)
     }
+
+    fun deleteInfo(info: PersonalInfo) {
+        mRepository.deletePersonalInfo(info)
+    }
 }

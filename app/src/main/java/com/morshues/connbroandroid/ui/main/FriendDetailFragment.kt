@@ -8,6 +8,7 @@ import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -136,7 +137,6 @@ class FriendDetailFragment : Fragment() {
 
         mRecyclerView = rv_person_detail.apply {
             layoutManager = LinearLayoutManager(activity)
-            setHasFixedSize(true)
             adapter = detailAdapter
         }
     }
@@ -155,8 +155,27 @@ class FriendDetailFragment : Fragment() {
             tv_nick_name.text = person.nickName
             tv_birthday.text = person.birthday.toString()
             tv_note.text = person.note
-            detailAdapter?.setPersonalInfo(it)
+            detailAdapter?.submitList(it.sortedInfo())
         })
+
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                viewModel.deleteInfo(detailAdapter!!.getInfoAt(position))
+                Snackbar.make(viewHolder.itemView, "Deleted", Snackbar.LENGTH_SHORT).show()
+            }
+        }).attachToRecyclerView(mRecyclerView)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

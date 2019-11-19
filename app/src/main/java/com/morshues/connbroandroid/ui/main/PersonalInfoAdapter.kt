@@ -6,21 +6,21 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.google.android.material.snackbar.Snackbar
 import com.morshues.connbroandroid.R
-import com.morshues.connbroandroid.db.model.PersonDetail
 import com.morshues.connbroandroid.db.model.PersonalInfo
 
-class PersonalInfoAdapter : RecyclerView.Adapter<PersonalInfoAdapter.PersonalInfoHolder>() {
-    private var info: List<PersonalInfo> = ArrayList()
+class PersonalInfoAdapter :
+    ListAdapter<PersonalInfo, PersonalInfoAdapter.PersonalInfoHolder>(DIFF_CALLBACK) {
     private var mOnItemClickListener: OnItemClickListener? = null
 
-    fun setPersonalInfo(personData: PersonDetail) {
-        info = personData.info.sortedByDescending { it.id }
-        notifyDataSetChanged()
+    fun getInfoAt(position: Int): PersonalInfo {
+        return getItem(position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonalInfoHolder {
@@ -29,12 +29,8 @@ class PersonalInfoAdapter : RecyclerView.Adapter<PersonalInfoAdapter.PersonalInf
         return PersonalInfoHolder(itemView)
     }
 
-    override fun getItemCount(): Int {
-        return info.size
-    }
-
     override fun onBindViewHolder(holder: PersonalInfoHolder, position: Int) {
-        val currentInfo = info[position]
+        val currentInfo = getItem(position)
         holder.tvTitle.text = currentInfo.title
         holder.etTitle.text = currentInfo.title
         holder.etDescription.text = currentInfo.description
@@ -51,7 +47,7 @@ class PersonalInfoAdapter : RecyclerView.Adapter<PersonalInfoAdapter.PersonalInf
         init {
             lytShow.setOnLongClickListener {
                 TransitionManager.beginDelayedTransition(itemView as CardView, AutoTransition())
-                val info = info[adapterPosition]
+                val info = getItem(adapterPosition)
                 etTitle.text = info.title
                 etDescription.text = info.description
                 lytShow.visibility = View.GONE
@@ -71,7 +67,7 @@ class PersonalInfoAdapter : RecyclerView.Adapter<PersonalInfoAdapter.PersonalInf
                 lytEdit.visibility = View.GONE
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    val info = info[position]
+                    val info = getItem(position)
                     info.title = etTitle.text.toString()
                     info.description = etDescription.text.toString()
                     mOnItemClickListener?.onInfoUpdate(info)
@@ -88,4 +84,16 @@ class PersonalInfoAdapter : RecyclerView.Adapter<PersonalInfoAdapter.PersonalInf
         mOnItemClickListener = l
     }
 
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PersonalInfo>() {
+            override fun areItemsTheSame(oldItem: PersonalInfo, newItem: PersonalInfo): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: PersonalInfo, newItem: PersonalInfo): Boolean {
+                return oldItem.title == newItem.title &&
+                        oldItem.description == newItem.description
+            }
+        }
+    }
 }

@@ -77,4 +77,10 @@ class ConnbroRepository(application: Application) {
             personalInfoDao.update(info)
         }
     }
+
+    fun deletePersonalInfo(info: PersonalInfo) = runBlocking {
+        launch(Dispatchers.IO) {
+            personalInfoDao.delete(info)
+        }
+    }
 }
