@@ -18,7 +18,9 @@ class DateSpinner(
     attrs: AttributeSet? = null
 ) : Spinner(context, attrs) {
 
-    private var skipCalendar = false
+    private var skipPicker = false
+    private var textCache = ""
+
     init {
         adapter = ArrayAdapter.createFromResource(
             context,
@@ -35,13 +37,17 @@ class DateSpinner(
                 position: Int,
                 id: Long
             ) {
-                if (position == 3) {
-                    (view as? TextView)?.text = prompt
-                    val c = DateTimeUtils.dateToCalender(prompt)
+                if (position == 3 && (view as? TextView) != null) {
+                    view.text = textCache
+                    if (skipPicker) {
+                        skipPicker = false
+                        return
+                    }
+                    val c = DateTimeUtils.dateToCalender(textCache)
                     val dlg = DatePickerDialog(context,
                         DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                            prompt = DateTimeUtils.toDateString(year, month, dayOfMonth)
-                            (view as TextView).text = prompt
+                            textCache = DateTimeUtils.toDateString(year, month, dayOfMonth)
+                            view.text = textCache
                         }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)
                     )
                     dlg.show()
@@ -67,8 +73,8 @@ class DateSpinner(
     }
 
     fun setDate(date: Date?) {
-        prompt = DateTimeUtils.toDateString(date)
-        skipCalendar = true
+        textCache = DateTimeUtils.toDateString(date)
+        skipPicker = true
         setSelection(3)
     }
 
@@ -78,7 +84,7 @@ class DateSpinner(
             1 -> return Date(System.currentTimeMillis() + A_DAY_IN_MILLISECOND)
             2 -> return Date(System.currentTimeMillis() - A_DAY_IN_MILLISECOND)
             3 -> {
-                return DateTimeUtils.toSqlDate(prompt)
+                return DateTimeUtils.toSqlDate(textCache)
             }
         }
         return null
