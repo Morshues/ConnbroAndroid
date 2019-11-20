@@ -51,7 +51,7 @@
                     app:layout_constraintTop_toBottomOf="@id/et_first_name" />
 
             <TextView
-                    android:id="@+id/l_birth"
+                    android:id="@+id/l_birthday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/birthday"
@@ -61,15 +61,15 @@
                     app:layout_constraintTop_toBottomOf="@id/et_nick_name" />
 
             <TextView
-                    android:id="@+id/tv_birth"
+                    android:id="@+id/tv_birthday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/touch_to_input"
                     android:padding="8dp"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/l_birth"
-                    app:layout_constraintTop_toTopOf="@id/l_birth" />
+                    app:layout_constraintStart_toEndOf="@id/l_birthday"
+                    app:layout_constraintTop_toTopOf="@id/l_birthday" />
 
             <EditText
                     android:id="@+id/et_note"
@@ -78,7 +78,7 @@
                     android:hint="@string/note"
                     android:inputType="textMultiLine"
                     android:singleLine="false"
-                    app:layout_constraintTop_toBottomOf="@id/l_birth" />
+                    app:layout_constraintTop_toBottomOf="@id/l_birthday" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
