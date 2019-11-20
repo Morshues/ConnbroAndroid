@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ConnbroAndroid</string>
 
+    <!-- Common -->
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
 
@@ -18,6 +19,26 @@
     <string name="menu_friend_add_inform">Add Information</string>
     <string name="menu_friend_add_event">Add Event</string>
 
+    <string name="personal_event">Event</string>
+    <string name="personal_event_title">Title</string>
+    <string name="personal_event_description">Description</string>
+    <string name="personal_event_start_at">Start At</string>
+    <string name="personal_event_end_at">End At</string>
+    <string-array name="personal_event_date">
+        <item>Today</item>
+        <item>Tomorrow</item>
+        <item>Yesterday</item>
+        <item>Set date…</item>
+    </string-array>
+    <string-array name="personal_event_time">
+        <item>Now</item>
+        <item>Morning</item>
+        <item>Afternoon</item>
+        <item>Evening</item>
+        <item>Night</item>
+        <item>Set time…</item>
+    </string-array>
+    <string name="personal_info">Information</string>
     <string name="personal_info_title">Title</string>
     <string name="personal_info_description">Description</string>
     <string name="personal_info_known_at">Known At</string>

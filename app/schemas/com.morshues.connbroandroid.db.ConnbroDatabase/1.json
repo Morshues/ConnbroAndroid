@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "95a148570ddc06ab6d612c38d507e890",
+    "identityHash": "00a9f187fe09b89c0219e0a733aa8a3b",
     "entities": [
       {
         "tableName": "User",
@@ -102,7 +102,7 @@
             "columnNames": [
               "user_id"
             ],
-            "createSql": "CREATE  INDEX `index_Person_user_id` ON `${TABLE_NAME}` (`user_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Person_user_id` ON `${TABLE_NAME}` (`user_id`)"
           }
         ],
         "foreignKeys": [
@@ -173,7 +173,7 @@
             "columnNames": [
               "user_id"
             ],
-            "createSql": "CREATE  INDEX `index_Relationship_user_id` ON `${TABLE_NAME}` (`user_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Relationship_user_id` ON `${TABLE_NAME}` (`user_id`)"
           },
           {
             "name": "index_Relationship_person_id",
@@ -181,7 +181,7 @@
             "columnNames": [
               "person_id"
             ],
-            "createSql": "CREATE  INDEX `index_Relationship_person_id` ON `${TABLE_NAME}` (`person_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Relationship_person_id` ON `${TABLE_NAME}` (`person_id`)"
           }
         ],
         "foreignKeys": [
@@ -275,7 +275,7 @@
             "columnNames": [
               "user_id"
             ],
-            "createSql": "CREATE  INDEX `index_personal_info_user_id` ON `${TABLE_NAME}` (`user_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_personal_info_user_id` ON `${TABLE_NAME}` (`user_id`)"
           },
           {
             "name": "index_personal_info_person_id",
@@ -283,7 +283,7 @@
             "columnNames": [
               "person_id"
             ],
-            "createSql": "CREATE  INDEX `index_personal_info_person_id` ON `${TABLE_NAME}` (`person_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_personal_info_person_id` ON `${TABLE_NAME}` (`person_id`)"
           },
           {
             "name": "index_personal_info_source_id",
@@ -291,7 +291,7 @@
             "columnNames": [
               "source_id"
             ],
-            "createSql": "CREATE  INDEX `index_personal_info_source_id` ON `${TABLE_NAME}` (`source_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_personal_info_source_id` ON `${TABLE_NAME}` (`source_id`)"
           }
         ],
         "foreignKeys": [
@@ -366,7 +366,7 @@
             "columnNames": [
               "user_id"
             ],
-            "createSql": "CREATE  INDEX `index_Group_user_id` ON `${TABLE_NAME}` (`user_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Group_user_id` ON `${TABLE_NAME}` (`user_id`)"
           }
         ],
         "foreignKeys": [
@@ -425,7 +425,7 @@
             "columnNames": [
               "user_id"
             ],
-            "createSql": "CREATE  INDEX `index_GroupMember_user_id` ON `${TABLE_NAME}` (`user_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_GroupMember_user_id` ON `${TABLE_NAME}` (`user_id`)"
           },
           {
             "name": "index_GroupMember_group_id",
@@ -433,7 +433,7 @@
             "columnNames": [
               "group_id"
             ],
-            "createSql": "CREATE  INDEX `index_GroupMember_group_id` ON `${TABLE_NAME}` (`group_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_GroupMember_group_id` ON `${TABLE_NAME}` (`group_id`)"
           },
           {
             "name": "index_GroupMember_person_id",
@@ -441,7 +441,7 @@
             "columnNames": [
               "person_id"
             ],
-            "createSql": "CREATE  INDEX `index_GroupMember_person_id` ON `${TABLE_NAME}` (`person_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_GroupMember_person_id` ON `${TABLE_NAME}` (`person_id`)"
           }
         ],
         "foreignKeys": [
@@ -522,7 +522,7 @@
             "columnNames": [
               "user_id"
             ],
-            "createSql": "CREATE  INDEX `index_Place_user_id` ON `${TABLE_NAME}` (`user_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Place_user_id` ON `${TABLE_NAME}` (`user_id`)"
           }
         ],
         "foreignKeys": [
@@ -541,7 +541,7 @@
       },
       {
         "tableName": "Event",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `user_id` INTEGER NOT NULL, `start_time` INTEGER NOT NULL, `end_time` INTEGER NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `place_id` INTEGER, `parent_event_id` INTEGER, FOREIGN KEY(`user_id`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`place_id`) REFERENCES `Place`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`parent_event_id`) REFERENCES `Event`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `user_id` INTEGER NOT NULL, `start_time` INTEGER, `end_time` INTEGER, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `place_id` INTEGER, `parent_event_id` INTEGER, FOREIGN KEY(`user_id`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`place_id`) REFERENCES `Place`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`parent_event_id`) REFERENCES `Event`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -559,13 +559,13 @@
             "fieldPath": "startTime",
             "columnName": "start_time",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "endTime",
             "columnName": "end_time",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "title",
@@ -605,7 +605,7 @@
             "columnNames": [
               "user_id"
             ],
-            "createSql": "CREATE  INDEX `index_Event_user_id` ON `${TABLE_NAME}` (`user_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Event_user_id` ON `${TABLE_NAME}` (`user_id`)"
           },
           {
             "name": "index_Event_place_id",
@@ -613,7 +613,7 @@
             "columnNames": [
               "place_id"
             ],
-            "createSql": "CREATE  INDEX `index_Event_place_id` ON `${TABLE_NAME}` (`place_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Event_place_id` ON `${TABLE_NAME}` (`place_id`)"
           },
           {
             "name": "index_Event_parent_event_id",
@@ -621,7 +621,7 @@
             "columnNames": [
               "parent_event_id"
             ],
-            "createSql": "CREATE  INDEX `index_Event_parent_event_id` ON `${TABLE_NAME}` (`parent_event_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Event_parent_event_id` ON `${TABLE_NAME}` (`parent_event_id`)"
           }
         ],
         "foreignKeys": [
@@ -702,7 +702,7 @@
             "columnNames": [
               "user_id"
             ],
-            "createSql": "CREATE  INDEX `index_event_attendee_user_id` ON `${TABLE_NAME}` (`user_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_event_attendee_user_id` ON `${TABLE_NAME}` (`user_id`)"
           },
           {
             "name": "index_event_attendee_person_id",
@@ -710,7 +710,7 @@
             "columnNames": [
               "person_id"
             ],
-            "createSql": "CREATE  INDEX `index_event_attendee_person_id` ON `${TABLE_NAME}` (`person_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_event_attendee_person_id` ON `${TABLE_NAME}` (`person_id`)"
           },
           {
             "name": "index_event_attendee_event_id",
@@ -718,7 +718,7 @@
             "columnNames": [
               "event_id"
             ],
-            "createSql": "CREATE  INDEX `index_event_attendee_event_id` ON `${TABLE_NAME}` (`event_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_event_attendee_event_id` ON `${TABLE_NAME}` (`event_id`)"
           }
         ],
         "foreignKeys": [
@@ -761,7 +761,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '95a148570ddc06ab6d612c38d507e890')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '00a9f187fe09b89c0219e0a733aa8a3b')"
     ]
   }
 }

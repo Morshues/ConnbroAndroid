@@ -19,7 +19,7 @@
 
         <include
                 android:id="@+id/lyt_create_event"
-                layout="@layout/partial_personal_info_editing"
+                layout="@layout/partial_event_editing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"

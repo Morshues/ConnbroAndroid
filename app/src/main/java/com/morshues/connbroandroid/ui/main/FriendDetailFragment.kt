@@ -19,10 +19,14 @@ import com.morshues.connbroandroid.db.model.PersonDetail
 import com.morshues.connbroandroid.db.model.PersonalInfo
 import com.morshues.connbroandroid.repo.ConnbroRepository
 import com.morshues.connbroandroid.util.ContentEditUtils
-import com.morshues.connbroandroid.util.DateUtils
+import com.morshues.connbroandroid.util.DateTimeUtils
 import kotlinx.android.synthetic.main.fragment_friend_detail.*
 import kotlinx.android.synthetic.main.partial_person_detail.*
-import kotlinx.android.synthetic.main.partial_personal_info_editing.view.*
+import kotlinx.android.synthetic.main.partial_personal_info_editing.view.btn_cancel
+import kotlinx.android.synthetic.main.partial_personal_info_editing.view.btn_confirm
+import kotlinx.android.synthetic.main.partial_personal_info_editing.view.et_description
+import kotlinx.android.synthetic.main.partial_personal_info_editing.view.et_title
+import java.sql.Date
 import java.util.*
 
 private const val ARG_FRIEND_ID = "argFriendId"
@@ -98,10 +102,10 @@ class FriendDetailFragment : Fragment() {
         tv_birthday.setOnClickListener { textView ->
             if (textView !is TextView) return@setOnClickListener
             val activity = activity?: return@setOnClickListener
-            val c = DateUtils.toCalender(textView.text)
+            val c = DateTimeUtils.dateToCalender(textView.text)
             val dlg = DatePickerDialog(activity,
                 DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                    viewModel.updateBirthday(DateUtils.toSqlDate(year, month, dayOfMonth))
+                    viewModel.updateBirthday(DateTimeUtils.toSqlDate(year, month, dayOfMonth))
                 }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH))
             dlg.show()
         }
@@ -124,9 +128,17 @@ class FriendDetailFragment : Fragment() {
                     Snackbar.make(it, R.string.msg_title_cannot_be_null, Snackbar.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-                viewModel.insertEvent(et_title.text.toString(), et_description.text.toString())
+                viewModel.insertEvent(
+                    et_title.text.toString(),
+                    et_description.text.toString(),
+                    Date(System.currentTimeMillis()),
+                    Date(System.currentTimeMillis())
+//                    DateTimeUtils.toSqlDate(tv_start_at.text),
+//                    DateTimeUtils.toSqlDate(tv_end_at.text)
+                )
                 et_title.setText("")
                 et_description.setText("")
+//                spn_start_date.setDate()
                 visibility = View.GONE
             }
         }

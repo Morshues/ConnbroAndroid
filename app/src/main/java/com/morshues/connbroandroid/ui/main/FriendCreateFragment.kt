@@ -13,7 +13,7 @@ import com.morshues.connbroandroid.repo.ConnbroRepository
 import kotlinx.android.synthetic.main.fragment_friend_create.view.*
 import android.app.DatePickerDialog
 import android.view.inputmethod.InputMethodManager
-import com.morshues.connbroandroid.util.DateUtils
+import com.morshues.connbroandroid.util.DateTimeUtils
 import kotlinx.android.synthetic.main.fragment_friend_create.*
 import java.util.*
 
@@ -52,10 +52,10 @@ class FriendCreateFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         tv_birth.setOnClickListener {
             val activity = activity?: return@setOnClickListener
-            val c = DateUtils.toCalender(tv_birth.text)
+            val c = DateTimeUtils.dateToCalender(tv_birth.text)
             val dlg = DatePickerDialog(activity,
                 DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                    tv_birth.text = DateUtils.toString(year, month, dayOfMonth)
+                    tv_birth.text = DateTimeUtils.toDateString(year, month, dayOfMonth)
                 }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH))
             dlg.show()
         }
@@ -103,7 +103,7 @@ class FriendCreateFragment : Fragment() {
                 midName = et_mid_name.text.toString().trim(),
                 lastName = et_last_name.text.toString().trim(),
                 nickName = et_nick_name.text.toString().trim(),
-                birthday = DateUtils.toSqlDate(tv_birth.text),
+                birthday = DateTimeUtils.toSqlDate(tv_birth.text),
                 note = et_note.text.toString().trim()
             )
             if (newFriend.nickName.isNotBlank() || newFriend.fullName().isNotBlank()) {

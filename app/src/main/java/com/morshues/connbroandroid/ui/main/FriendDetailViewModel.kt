@@ -70,12 +70,12 @@ class FriendDetailViewModel(
         mRepository.deletePersonalInfo(info)
     }
 
-    fun insertEvent(title: String, description: String) {
+    fun insertEvent(title: String, description: String, startTime: Date?, endTime: Date?) {
         val friend = friendData.value?.person?: return
         val event = Event(
             userId = friend.userId,
-            startTime = Date(System.currentTimeMillis()),
-            endTime = Date(System.currentTimeMillis()),
+            startTime = startTime?: Date(System.currentTimeMillis()),
+            endTime = endTime?: Date(System.currentTimeMillis()),
             title = title,
             description = description
         )

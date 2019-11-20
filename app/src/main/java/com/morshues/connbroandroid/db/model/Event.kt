@@ -27,8 +27,8 @@ import java.sql.Date
 data class Event(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     @ColumnInfo(name = "user_id", index = true) var userId: Long,
-    @ColumnInfo(name = "start_time") var startTime: Date,
-    @ColumnInfo(name = "end_time") var endTime: Date,
+    @ColumnInfo(name = "start_time") var startTime: Date?,
+    @ColumnInfo(name = "end_time") var endTime: Date?,
     @ColumnInfo(name = "title") var title: String,
     @ColumnInfo(name = "description") var description: String,
     @ColumnInfo(name = "place_id", index = true) var placeId: Long? = null,
