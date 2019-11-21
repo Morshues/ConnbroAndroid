@@ -10,13 +10,16 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.util.DateTimeUtils
+import java.sql.Date
 import java.util.*
-
 
 class TimeSpinner(
     context: Context,
     attrs: AttributeSet? = null
 ) : Spinner(context, attrs) {
+
+    private var skipPicker = false
+    private var textCache = ""
 
     init {
         adapter = ArrayAdapter.createFromResource(
@@ -34,12 +37,17 @@ class TimeSpinner(
                 position: Int,
                 id: Long
             ) {
-                if (position == 5) {
-                    view as TextView
-                    val c = DateTimeUtils.timeToCalender(view.text)
+                if (position == 5 && (view as? TextView) != null) {
+                    view.text = textCache
+                    if (skipPicker) {
+                        skipPicker = false
+                        return
+                    }
+                    val c = DateTimeUtils.timeToCalender(textCache)
                     val dlg = TimePickerDialog(context,
                         TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
-                            DateTimeUtils.toTimeString(hourOfDay, minute)
+                            textCache = DateTimeUtils.toTimeString(hourOfDay, minute)
+                            view.text = textCache
                         }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true
                     )
                     dlg.show()
@@ -64,24 +72,42 @@ class TimeSpinner(
         }
     }
 
-    fun getDate(): TimeData? {
+    fun setTime(date: Date?) {
+        textCache = DateTimeUtils.toTimeString(date)
+        skipPicker = true
+        setSelection(5)
+    }
+
+    fun getTime(): Date? {
+        val c = Calendar.getInstance()
         return when (selectedItemPosition) {
-            0 -> {
-                val c = Calendar.getInstance()
-                TimeData(c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE))
+            0 -> Date(c.timeInMillis)
+            1 -> {
+                c.set(Calendar.HOUR_OF_DAY, 8)
+                c.set(Calendar.MINUTE, 0)
+                Date(c.timeInMillis)
             }
-            1 -> TimeData(7, 0)
-            2 -> TimeData(12, 0)
-            3 -> TimeData(17, 0)
-            4 -> TimeData(19, 0)
+            2 -> {
+                c.set(Calendar.HOUR_OF_DAY, 13)
+                c.set(Calendar.MINUTE, 0)
+                Date(c.timeInMillis)
+            }
+            3 -> {
+                c.set(Calendar.HOUR_OF_DAY, 18)
+                c.set(Calendar.MINUTE, 0)
+                Date(c.timeInMillis)
+            }
+            4 -> {
+                c.set(Calendar.HOUR_OF_DAY, 20)
+                c.set(Calendar.MINUTE, 0)
+                Date(c.timeInMillis)
+            }
             5 -> {
                 val view = selectedView as TextView
-                val c = DateTimeUtils.timeToCalender(view.text)
-                TimeData(c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE))
+                val time = DateTimeUtils.timeToCalender(view.text).timeInMillis
+                Date(time)
             }
             else -> null
         }
     }
-
-    data class TimeData(val hour: Int, val min: Int)
 }

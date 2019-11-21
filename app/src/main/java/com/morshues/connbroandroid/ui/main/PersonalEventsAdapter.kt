@@ -13,6 +13,7 @@ import androidx.transition.TransitionManager
 import com.google.android.material.snackbar.Snackbar
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.db.model.Event
+import com.morshues.connbroandroid.util.DateTimeUtils
 import com.morshues.connbroandroid.widget.DateSpinner
 import com.morshues.connbroandroid.widget.TimeSpinner
 
@@ -36,7 +37,7 @@ class PersonalEventsAdapter :
         holder.etTitle.text = currentEvent.title
         holder.etDescription.text = currentEvent.description
         holder.spnStartDate.setDate(currentEvent.startTime)
-//        holder.spnStartTime.setTime(currentEvent.startTime)
+        holder.spnStartTime.setTime(currentEvent.startTime)
     }
 
     inner class PersonalEventHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -45,8 +46,8 @@ class PersonalEventsAdapter :
         var tvTitle: TextView = itemView.findViewById(R.id.tv_title)
         var etTitle: TextView = itemView.findViewById(R.id.et_title)
         var etDescription: TextView = itemView.findViewById(R.id.et_description)
-        var spnStartDate = itemView.findViewById<DateSpinner>(R.id.spn_start_date)
-        var spnStartTime = itemView.findViewById<TimeSpinner>(R.id.spn_start_time)
+        var spnStartDate: DateSpinner = itemView.findViewById(R.id.spn_start_date)
+        var spnStartTime: TimeSpinner = itemView.findViewById(R.id.spn_start_time)
         private var btnCancel = itemView.findViewById<Button>(R.id.btn_cancel)
         private var btnConfirm = itemView.findViewById<Button>(R.id.btn_confirm)
         init {
@@ -56,7 +57,7 @@ class PersonalEventsAdapter :
                 etTitle.text = event.title
                 etDescription.text = event.description
                 spnStartDate.setDate(event.startTime)
-//                spnStartDate.setDate(event.startTime)
+                spnStartTime.setTime(event.startTime)
                 lytShow.visibility = View.GONE
                 lytEdit.visibility = View.VISIBLE
                 true
@@ -77,7 +78,10 @@ class PersonalEventsAdapter :
                     val event = getItem(position)
                     event.title = etTitle.text.toString()
                     event.description = etDescription.text.toString()
-                    event.startTime = spnStartDate.getDate()
+                    event.startTime = DateTimeUtils.combineDateTime(
+                        spnStartDate.getDate(),
+                        spnStartTime.getTime()
+                    )
                     mOnItemClickListener?.onEventUpdate(event)
                 }
             }
