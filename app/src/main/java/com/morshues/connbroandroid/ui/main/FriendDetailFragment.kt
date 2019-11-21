@@ -21,6 +21,7 @@ import com.morshues.connbroandroid.repo.ConnbroRepository
 import com.morshues.connbroandroid.util.ContentEditUtils
 import com.morshues.connbroandroid.util.DateTimeUtils
 import kotlinx.android.synthetic.main.fragment_friend_detail.*
+import kotlinx.android.synthetic.main.partial_event_editing.view.*
 import kotlinx.android.synthetic.main.partial_person_detail.*
 import kotlinx.android.synthetic.main.partial_personal_info_editing.view.btn_cancel
 import kotlinx.android.synthetic.main.partial_personal_info_editing.view.btn_confirm
@@ -129,16 +130,14 @@ class FriendDetailFragment : Fragment() {
                     return@setOnClickListener
                 }
                 viewModel.insertEvent(
-                    et_title.text.toString(),
-                    et_description.text.toString(),
-                    Date(System.currentTimeMillis()),
-                    Date(System.currentTimeMillis())
-//                    DateTimeUtils.toSqlDate(tv_start_at.text),
-//                    DateTimeUtils.toSqlDate(tv_end_at.text)
+                    title = et_title.text.toString(),
+                    description = et_description.text.toString(),
+                    startTime = v_start_at.getDateTime(),
+                    endTime = Date(System.currentTimeMillis())
                 )
                 et_title.setText("")
                 et_description.setText("")
-//                spn_start_date.setDate()
+                v_start_at.reset()
                 visibility = View.GONE
             }
         }

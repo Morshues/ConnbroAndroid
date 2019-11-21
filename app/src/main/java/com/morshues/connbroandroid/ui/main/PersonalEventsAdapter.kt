@@ -13,9 +13,7 @@ import androidx.transition.TransitionManager
 import com.google.android.material.snackbar.Snackbar
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.db.model.Event
-import com.morshues.connbroandroid.util.DateTimeUtils
-import com.morshues.connbroandroid.widget.DateSpinner
-import com.morshues.connbroandroid.widget.TimeSpinner
+import com.morshues.connbroandroid.widget.DateTimeView
 
 class PersonalEventsAdapter :
     ListAdapter<Event, PersonalEventsAdapter.PersonalEventHolder>(DIFF_CALLBACK) {
@@ -36,8 +34,7 @@ class PersonalEventsAdapter :
         holder.tvTitle.text = currentEvent.title
         holder.etTitle.text = currentEvent.title
         holder.etDescription.text = currentEvent.description
-        holder.spnStartDate.setDate(currentEvent.startTime)
-        holder.spnStartTime.setTime(currentEvent.startTime)
+        holder.vStartAt.setDateTime(currentEvent.startTime)
     }
 
     inner class PersonalEventHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -46,8 +43,7 @@ class PersonalEventsAdapter :
         var tvTitle: TextView = itemView.findViewById(R.id.tv_title)
         var etTitle: TextView = itemView.findViewById(R.id.et_title)
         var etDescription: TextView = itemView.findViewById(R.id.et_description)
-        var spnStartDate: DateSpinner = itemView.findViewById(R.id.spn_start_date)
-        var spnStartTime: TimeSpinner = itemView.findViewById(R.id.spn_start_time)
+        var vStartAt: DateTimeView = itemView.findViewById(R.id.v_start_at)
         private var btnCancel = itemView.findViewById<Button>(R.id.btn_cancel)
         private var btnConfirm = itemView.findViewById<Button>(R.id.btn_confirm)
         init {
@@ -56,8 +52,7 @@ class PersonalEventsAdapter :
                 val event = getItem(adapterPosition)
                 etTitle.text = event.title
                 etDescription.text = event.description
-                spnStartDate.setDate(event.startTime)
-                spnStartTime.setTime(event.startTime)
+                vStartAt.setDateTime(event.startTime)
                 lytShow.visibility = View.GONE
                 lytEdit.visibility = View.VISIBLE
                 true
@@ -78,10 +73,7 @@ class PersonalEventsAdapter :
                     val event = getItem(position)
                     event.title = etTitle.text.toString()
                     event.description = etDescription.text.toString()
-                    event.startTime = DateTimeUtils.combineDateTime(
-                        spnStartDate.getDate(),
-                        spnStartTime.getTime()
-                    )
+                    event.startTime = vStartAt.getDateTime()
                     mOnItemClickListener?.onEventUpdate(event)
                 }
             }

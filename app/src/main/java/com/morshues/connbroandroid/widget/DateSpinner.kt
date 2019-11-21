@@ -72,6 +72,10 @@ class DateSpinner(
         }
     }
 
+    fun reset() {
+        setSelection(0)
+    }
+
     fun setDate(date: Date?) {
         textCache = DateTimeUtils.toDateString(date)
         skipPicker = true
