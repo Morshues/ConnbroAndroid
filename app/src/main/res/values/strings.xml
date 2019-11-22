@@ -8,15 +8,19 @@
     <string name="update">Update</string>
     <string name="deleted">Deleted</string>
 
+    <!-- Common Empty Hints -->
+    <string name="empty"> (empty) </string>
+    <string name="touch_to_input">(Touch to input)</string>
+    <string name="no_description">(No Description)</string>
+
+    <!-- Friends -->
     <string name="last_name">Last Name</string>
     <string name="mid_name">Mid Name</string>
     <string name="first_name">First Name</string>
     <string name="nick_name">Nick Name</string>
     <string name="birthday">Birthday</string>
-    <string name="empty"> (empty) </string>
     <string name="note">Note</string>
     <string name="no_note">No Note</string>
-    <string name="touch_to_input">(Touch to input)</string>
 
     <string name="menu_friend_save">Save</string>
     <string name="menu_friend_add_inform">Add Information</string>
@@ -48,4 +52,9 @@
     <string name="msg_title_cannot_be_blank">Title can not be blank</string>
 
     <string name="create_friend">Add New Friend</string>
+
+    <!-- Notification Channel -->
+    <string name="channel_reminder_event_title">Event Reminder</string>
+    <string name="channel_reminder_event_description">Notify events at time</string>
+
 </resources>

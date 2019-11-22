@@ -1,6 +1,7 @@
 package com.morshues.connbroandroid
 
 import android.app.Application
+import com.morshues.connbroandroid.reminder.ReminderUtils
 import com.morshues.connbroandroid.repo.ConnbroRepository
 
 class App : Application() {
@@ -11,6 +12,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         mRepository = ConnbroRepository(this)
+        ReminderUtils.init(this)
     }
 
 }

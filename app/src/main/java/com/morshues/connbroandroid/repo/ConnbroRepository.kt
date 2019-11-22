@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import com.morshues.connbroandroid.db.ConnbroDatabase
 import com.morshues.connbroandroid.db.dao.*
 import com.morshues.connbroandroid.db.model.*
+import com.morshues.connbroandroid.reminder.ReminderUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -92,18 +93,29 @@ class ConnbroRepository(application: Application) {
                 eventId = id
             )
             eventAttendeeDao.insert(attendee)
+            event.apply {
+                startTime?.let {
+                    ReminderUtils.addReminder(id.toInt(), it.time, title, description)
+                }
+            }
         }
     }
 
     fun updateEvent(event: Event) = runBlocking {
         launch(Dispatchers.IO) {
             eventDao.update(event)
+            event.apply {
+                startTime?.let {
+                    ReminderUtils.updateReminder(id.toInt(), it.time, title, description)
+                }
+            }
         }
     }
 
     fun deleteEvent(event: Event) = runBlocking {
         launch(Dispatchers.IO) {
             eventDao.delete(event)
+            ReminderUtils.cancelReminder(event.id.toInt())
         }
     }
 }
