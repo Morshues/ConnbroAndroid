@@ -1,19 +1,16 @@
 package com.morshues.connbroandroid.ui.main
 
+import android.graphics.Color
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
-import com.google.android.material.snackbar.Snackbar
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.db.model.Event
-import com.morshues.connbroandroid.widget.DateTimeView
 
 class PersonalEventsAdapter :
     ListAdapter<Event, PersonalEventsAdapter.PersonalEventHolder>(DIFF_CALLBACK) {
@@ -31,51 +28,27 @@ class PersonalEventsAdapter :
 
     override fun onBindViewHolder(holder: PersonalEventHolder, position: Int) {
         val currentEvent = getItem(position)
-        holder.tvTitle.text = currentEvent.title
-        holder.etTitle.text = currentEvent.title
-        holder.etDescription.text = currentEvent.description
-        holder.vStartAt.setDateTime(currentEvent.startTime)
+        holder.apply {
+            tvTitle.text = currentEvent.title
+            currentEvent.startTime?.also {
+                if (it.time < System.currentTimeMillis()) {
+                    itemView.setBackgroundColor(Color.LTGRAY)
+                } else {
+                    itemView.setBackgroundColor(Color.WHITE)
+                }
+                tvTime.text = DateUtils.getRelativeTimeSpanString(it.time)
+            } ?: run {
+                tvTime.text = ""
+            }
+        }
     }
 
     inner class PersonalEventHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private var lytShow: ViewGroup = itemView.findViewById(R.id.lyt_show)
-        private var lytEdit: ViewGroup = itemView.findViewById(R.id.lyt_edit)
         var tvTitle: TextView = itemView.findViewById(R.id.tv_title)
-        var etTitle: TextView = itemView.findViewById(R.id.et_title)
-        var etDescription: TextView = itemView.findViewById(R.id.et_description)
-        var vStartAt: DateTimeView = itemView.findViewById(R.id.v_start_at)
-        private var btnCancel = itemView.findViewById<Button>(R.id.btn_cancel)
-        private var btnConfirm = itemView.findViewById<Button>(R.id.btn_confirm)
+        var tvTime: TextView = itemView.findViewById(R.id.tv_time)
         init {
-            lytShow.setOnLongClickListener {
-                TransitionManager.beginDelayedTransition(itemView as CardView, AutoTransition())
-                val event = getItem(adapterPosition)
-                etTitle.text = event.title
-                etDescription.text = event.description
-                vStartAt.setDateTime(event.startTime)
-                lytShow.visibility = View.GONE
-                lytEdit.visibility = View.VISIBLE
-                true
-            }
-            btnCancel.setOnClickListener {
-                lytShow.visibility = View.VISIBLE
-                lytEdit.visibility = View.GONE
-            }
-            btnConfirm.setOnClickListener {
-                if (etTitle.text.toString().isBlank()) {
-                    Snackbar.make(it, R.string.msg_title_cannot_be_null, Snackbar.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-                lytShow.visibility = View.VISIBLE
-                lytEdit.visibility = View.GONE
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val event = getItem(position)
-                    event.title = etTitle.text.toString()
-                    event.description = etDescription.text.toString()
-                    event.startTime = vStartAt.getDateTime()
-                    mOnItemClickListener?.onEventUpdate(event)
-                }
+            itemView.setOnClickListener {
+                mOnItemClickListener?.onEventUpdate(getItem(adapterPosition))
             }
         }
     }
@@ -96,7 +69,9 @@ class PersonalEventsAdapter :
 
             override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean {
                 return oldItem.title == newItem.title &&
-                        oldItem.description == newItem.description
+                        oldItem.description == newItem.description &&
+                        oldItem.startTime == newItem.startTime &&
+                        oldItem.endTime == newItem.endTime
             }
         }
     }

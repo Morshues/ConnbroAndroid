@@ -27,7 +27,7 @@ import java.sql.Date
     ])
 data class PersonalInfo(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    @ColumnInfo(name = "user_id", index = true) var userId: Long,
+    @ColumnInfo(name = "user_id", index = true) var userId: Long = 0,
     @ColumnInfo(name = "person_id", index = true) var personId: Long,
     @ColumnInfo(name = "title") var title: String,
     @ColumnInfo(name = "description") var description: String = "",

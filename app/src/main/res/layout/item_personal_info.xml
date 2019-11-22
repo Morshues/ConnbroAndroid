@@ -3,10 +3,11 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp">
+        android:layout_margin="4dp"
+        android:foreground="?android:attr/selectableItemBackground">
 
     <RelativeLayout
-            android:id="@+id/lyt_show"
+            android:id="@+id/lyt_brief"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="8dp">
@@ -17,13 +18,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 tools:text="Info Title" />
-    </RelativeLayout>
 
-    <include
-            layout="@layout/partial_personal_info_editing"
-            android:id="@+id/lyt_edit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

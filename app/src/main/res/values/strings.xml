@@ -4,6 +4,9 @@
     <!-- Common -->
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="add">Add</string>
+    <string name="update">Update</string>
+    <string name="deleted">Deleted</string>
 
     <string name="last_name">Last Name</string>
     <string name="mid_name">Mid Name</string>
@@ -42,7 +45,7 @@
     <string name="personal_info_title">Title</string>
     <string name="personal_info_description">Description</string>
     <string name="personal_info_known_at">Known At</string>
-    <string name="msg_title_cannot_be_null">Title can not be null</string>
+    <string name="msg_title_cannot_be_blank">Title can not be blank</string>
 
     <string name="create_friend">Add New Friend</string>
 </resources>

@@ -3,7 +3,6 @@ package com.morshues.connbroandroid.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.morshues.connbroandroid.db.model.Event
-import com.morshues.connbroandroid.db.model.EventAttendee
 import com.morshues.connbroandroid.db.model.PersonDetail
 import com.morshues.connbroandroid.db.model.PersonalInfo
 import com.morshues.connbroandroid.repo.ConnbroRepository
@@ -51,18 +50,17 @@ class FriendDetailViewModel(
         mRepository.updatePerson(friend)
     }
 
-    fun insertInfo(title: String, description: String) {
+    fun insertInfo(info: PersonalInfo) {
         val friend = friendData.value?.person?: return
-        val info = PersonalInfo(
-            userId = friend.userId,
-            personId = friend.id,
-            title = title,
-            description = description
-        )
+        info.userId = friend.userId
+        info.personId = friend.id
         mRepository.insertPersonalInfo(info)
     }
 
     fun updateInfo(info: PersonalInfo) {
+        val friend = friendData.value?.person?: return
+        info.userId = friend.userId
+        info.personId = friend.id
         mRepository.updatePersonalInfo(info)
     }
 
@@ -70,20 +68,20 @@ class FriendDetailViewModel(
         mRepository.deletePersonalInfo(info)
     }
 
-    fun insertEvent(title: String, description: String, startTime: Date?, endTime: Date?) {
+    fun insertEvent(event: Event) {
         val friend = friendData.value?.person?: return
-        val event = Event(
-            userId = friend.userId,
-            startTime = startTime?: Date(System.currentTimeMillis()),
-            endTime = endTime?: Date(System.currentTimeMillis()),
-            title = title,
-            description = description
-        )
+        event.userId = friend.userId
         mRepository.insertEvent(event, friend)
     }
 
     fun updateEvent(event: Event) {
+        val friend = friendData.value?.person?: return
+        event.userId = friend.userId
         mRepository.updateEvent(event)
+    }
+
+    fun deleteEvent(event: Event) {
+        mRepository.deleteEvent(event)
     }
 
 }

@@ -100,4 +100,10 @@ class ConnbroRepository(application: Application) {
             eventDao.update(event)
         }
     }
+
+    fun deleteEvent(event: Event) = runBlocking {
+        launch(Dispatchers.IO) {
+            eventDao.delete(event)
+        }
+    }
 }
