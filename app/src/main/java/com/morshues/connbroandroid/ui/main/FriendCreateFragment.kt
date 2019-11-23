@@ -112,7 +112,7 @@ class FriendCreateFragment : Fragment() {
             } else {
                 Snackbar.make(
                     rootView,
-                    "Name or NickName can not be blank",
+                    R.string.msg_name_cannot_be_blank,
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
