@@ -1,6 +1,6 @@
 package com.morshues.connbroandroid.repo
 
-import android.app.Application
+import android.content.Context
 import androidx.lifecycle.LiveData
 import com.morshues.connbroandroid.db.ConnbroDatabase
 import com.morshues.connbroandroid.db.dao.*
@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class ConnbroRepository(application: Application) {
+class ConnbroRepository private constructor(context: Context) {
     private val userDao: UserDao
     private var personDao: PersonDao
     private var personalInfoDao: PersonalInfoDao
@@ -22,7 +22,7 @@ class ConnbroRepository(application: Application) {
     private lateinit var currentUser: User
 
     init {
-        val database = ConnbroDatabase.getInstance(application)
+        val database = ConnbroDatabase.getInstance(context)
         userDao = database.userDao()
         personDao = database.personDao()
         personalInfoDao = database.personalInfoDao()
@@ -117,5 +117,15 @@ class ConnbroRepository(application: Application) {
             eventDao.delete(event)
             ReminderUtils.cancelReminder(event.id.toInt())
         }
+    }
+
+    companion object {
+
+        @Volatile private var instance: ConnbroRepository? = null
+
+        fun getInstance(context: Context) =
+            instance ?: synchronized(this) {
+                instance ?: ConnbroRepository(context).also { instance = it }
+            }
     }
 }

@@ -1,66 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.main.FriendDetailFragment">
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+        <variable
+                name="textEditListener"
+                type="android.view.View.OnClickListener" />
+        <variable
+                name="dateEditListener"
+                type="android.view.View.OnClickListener" />
+        <variable
+                name="friend"
+                type="com.morshues.connbroandroid.db.model.PersonDetail" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            tools:context=".ui.main.FriendDetailFragment">
 
-        <include
-                android:id="@+id/lyt_detail"
-                layout="@layout/partial_person_detail"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-                android:id="@+id/l_events"
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="#ddd"
-                android:labelFor="@+id/rv_events"
-                android:text="@string/personal_event"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lyt_detail" />
+                android:layout_height="wrap_content">
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_events"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/l_events"
-                tools:listitem="@layout/item_personal_event" />
+            <include
+                    android:id="@+id/lyt_detail"
+                    layout="@layout/partial_person_detail"
+                    app:person="@{friend.person}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:dateEditListener="@{dateEditListener}"
+                    app:textEditListener="@{textEditListener}" />
 
-        <TextView
-                android:id="@+id/l_person_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="#ddd"
-                android:labelFor="@+id/rv_person_info"
-                android:text="@string/personal_info"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rv_events" />
+            <TextView
+                    android:id="@+id/l_events"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="#ddd"
+                    android:labelFor="@+id/rv_events"
+                    android:text="@string/personal_event"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lyt_detail" />
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_person_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/l_person_info"
-                tools:listitem="@layout/item_personal_info" />
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_events"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/l_events"
+                    tools:listitem="@layout/item_personal_event" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                    android:id="@+id/l_person_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="#ddd"
+                    android:labelFor="@+id/rv_person_info"
+                    android:text="@string/personal_info"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rv_events" />
 
-</androidx.core.widget.NestedScrollView>
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_person_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/l_person_info"
+                    tools:listitem="@layout/item_personal_info" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

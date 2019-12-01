@@ -1,15 +1,11 @@
 package com.morshues.connbroandroid.ui.main
 
-import android.graphics.Color
-import android.text.format.DateUtils
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.*
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.morshues.connbroandroid.R
+import com.morshues.connbroandroid.databinding.ItemPersonalEventBinding
 import com.morshues.connbroandroid.db.model.Event
 
 class PersonalEventsAdapter :
@@ -21,34 +17,29 @@ class PersonalEventsAdapter :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonalEventHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_personal_event, parent, false)
-        return PersonalEventHolder(itemView)
+        val binding =
+            ItemPersonalEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return PersonalEventHolder(binding)
     }
 
     override fun onBindViewHolder(holder: PersonalEventHolder, position: Int) {
         val currentEvent = getItem(position)
-        holder.apply {
-            tvTitle.text = currentEvent.title
-            currentEvent.startTime?.also {
-                if (it.time < System.currentTimeMillis()) {
-                    itemView.setBackgroundColor(Color.LTGRAY)
-                } else {
-                    itemView.setBackgroundColor(Color.WHITE)
-                }
-                tvTime.text = DateUtils.getRelativeTimeSpanString(it.time)
-            } ?: run {
-                tvTime.text = ""
-            }
-        }
+        holder.bind(currentEvent)
     }
 
-    inner class PersonalEventHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvTitle: TextView = itemView.findViewById(R.id.tv_title)
-        var tvTime: TextView = itemView.findViewById(R.id.tv_time)
+    inner class PersonalEventHolder(
+        private val binding: ItemPersonalEventBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
         init {
-            itemView.setOnClickListener {
+            binding.setClickListener {
                 mOnItemClickListener?.onEventUpdate(getItem(adapterPosition))
+            }
+        }
+
+        fun bind(item: Event) {
+            binding.apply {
+                event = item
+                executePendingBindings()
             }
         }
     }

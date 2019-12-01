@@ -1,118 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-            android:id="@+id/label_last_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="@string/last_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <data>
+        <variable
+                name="textEditListener"
+                type="android.view.View.OnClickListener" />
+        <variable
+                name="dateEditListener"
+                type="android.view.View.OnClickListener" />
+        <variable
+                name="person"
+                type="com.morshues.connbroandroid.db.model.Person" />
+    </data>
 
-    <TextView
-            android:id="@+id/tv_last_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/empty"
-            android:padding="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/label_last_name"
-            app:layout_constraintTop_toTopOf="@id/label_last_name"
-            tools:text="@string/last_name" />
-
-    <TextView
-            android:id="@+id/label_mid_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="@string/mid_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_last_name" />
-
-    <TextView
-            android:id="@+id/tv_mid_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/empty"
-            android:padding="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/label_mid_name"
-            app:layout_constraintTop_toTopOf="@id/label_mid_name"
-            tools:text="@string/mid_name" />
-
-    <TextView
-            android:id="@+id/label_first_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="@string/first_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_mid_name" />
-
-    <TextView
-            android:id="@+id/tv_first_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/empty"
-            android:padding="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/label_first_name"
-            app:layout_constraintTop_toTopOf="@id/label_first_name"
-            tools:text="@string/first_name" />
-
-    <TextView
-            android:id="@+id/label_nick_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="@string/nick_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_first_name" />
-
-    <TextView
-            android:id="@+id/tv_nick_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/empty"
-            android:padding="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/label_nick_name"
-            app:layout_constraintTop_toTopOf="@id/label_nick_name"
-            tools:text="@string/nick_name" />
-
-    <TextView
-            android:id="@+id/label_birthday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="@string/birthday"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_nick_name" />
-
-    <TextView
-            android:id="@+id/tv_birthday"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/empty"
-            android:padding="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/label_birthday"
-            app:layout_constraintTop_toTopOf="@id/label_birthday"
-            tools:text="@string/birthday" />
-
-    <TextView
-            android:id="@+id/tv_note"
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/no_note"
-            android:padding="8dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_birthday"
-            tools:text="@string/note" />
+            android:layout_margin="8dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+                android:id="@+id/label_last_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@+id/tv_last_name"
+                android:padding="8dp"
+                android:text="@string/last_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/tv_last_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/empty"
+                android:onClick="@{textEditListener}"
+                android:padding="8dp"
+                android:text="@{person.lastName}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/label_last_name"
+                app:layout_constraintTop_toTopOf="@id/label_last_name"
+                tools:text="@string/last_name" />
+
+        <TextView
+                android:id="@+id/label_mid_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@+id/tv_mid_name"
+                android:padding="8dp"
+                android:text="@string/mid_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_last_name" />
+
+        <TextView
+                android:id="@+id/tv_mid_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/empty"
+                android:onClick="@{textEditListener}"
+                android:padding="8dp"
+                android:text="@{person.midName}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/label_mid_name"
+                app:layout_constraintTop_toTopOf="@id/label_mid_name"
+                tools:text="@string/mid_name" />
+
+        <TextView
+                android:id="@+id/label_first_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@+id/tv_first_name"
+                android:padding="8dp"
+                android:text="@string/first_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_mid_name" />
+
+        <TextView
+                android:id="@+id/tv_first_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/empty"
+                android:onClick="@{textEditListener}"
+                android:padding="8dp"
+                android:text="@{person.firstName}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/label_first_name"
+                app:layout_constraintTop_toTopOf="@id/label_first_name"
+                tools:text="@string/first_name" />
+
+        <TextView
+                android:id="@+id/label_nick_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@+id/tv_nick_name"
+                android:padding="8dp"
+                android:text="@string/nick_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_first_name" />
+
+        <TextView
+                android:id="@+id/tv_nick_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/empty"
+                android:onClick="@{textEditListener}"
+                android:padding="8dp"
+                android:text="@{person.nickName}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/label_nick_name"
+                app:layout_constraintTop_toTopOf="@id/label_nick_name"
+                tools:text="@string/nick_name" />
+
+        <TextView
+                android:id="@+id/label_birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@+id/tv_birthday"
+                android:padding="8dp"
+                android:text="@string/birthday"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_nick_name" />
+
+        <TextView
+                android:id="@+id/tv_birthday"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/empty"
+                android:onClick="@{dateEditListener}"
+                android:padding="8dp"
+                app:dateText="@{person.birthday}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/label_birthday"
+                app:layout_constraintTop_toTopOf="@id/label_birthday"
+                tools:text="@string/birthday" />
+
+        <TextView
+                android:id="@+id/tv_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/no_note"
+                android:onClick="@{textEditListener}"
+                android:padding="8dp"
+                android:text="@{person.note}"
+                app:layout_constraintTop_toBottomOf="@id/tv_birthday"
+                tools:text="@string/note" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

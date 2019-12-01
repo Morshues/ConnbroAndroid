@@ -18,7 +18,8 @@ import com.morshues.connbroandroid.db.model.*
         GroupMember::class,
         Place::class,
         Event::class,
-        EventAttendee::class],
+        EventAttendee::class
+    ],
     version = 1
 )
 @TypeConverters(DateConverter::class)
@@ -31,19 +32,20 @@ abstract class ConnbroDatabase : RoomDatabase() {
 
     companion object {
         @Volatile
-        private var INSTANCE: ConnbroDatabase? = null
+        private var instance: ConnbroDatabase? = null
 
-        @Synchronized
         fun getInstance(context: Context): ConnbroDatabase {
-            if (INSTANCE == null) {
-                INSTANCE = Room.databaseBuilder(
-                    context.applicationContext,
-                    ConnbroDatabase::class.java,
-                    "connbro.db"
-                ).build()
+            return instance ?: synchronized(this) {
+                instance ?: buildDatabase(context).also { instance = it }
             }
+        }
 
-            return INSTANCE!!
+        private fun buildDatabase(context: Context): ConnbroDatabase {
+            return Room.databaseBuilder(
+                context.applicationContext,
+                ConnbroDatabase::class.java,
+                "connbro.db"
+            ).build()
         }
     }
 }

@@ -1,13 +1,11 @@
 package com.morshues.connbroandroid.ui.main
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.morshues.connbroandroid.R
+import com.morshues.connbroandroid.databinding.ItemPersonalInfoBinding
 import com.morshues.connbroandroid.db.model.PersonalInfo
 
 class PersonalInfoAdapter :
@@ -19,21 +17,29 @@ class PersonalInfoAdapter :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonalInfoHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_personal_info, parent, false)
-        return PersonalInfoHolder(itemView)
+        val binding =
+            ItemPersonalInfoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return PersonalInfoHolder(binding)
     }
 
     override fun onBindViewHolder(holder: PersonalInfoHolder, position: Int) {
         val currentInfo = getItem(position)
-        holder.tvTitle.text = currentInfo.title
+        holder.bind(currentInfo)
     }
 
-    inner class PersonalInfoHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvTitle: TextView = itemView.findViewById(R.id.tv_title)
+    inner class PersonalInfoHolder(
+        private val binding: ItemPersonalInfoBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
         init {
-            itemView.setOnClickListener {
+            binding.setClickListener {
                 mOnItemClickListener?.onInfoUpdate(getItem(adapterPosition))
+            }
+        }
+
+        fun bind(item: PersonalInfo) {
+            binding.apply {
+                info = item
+                executePendingBindings()
             }
         }
     }

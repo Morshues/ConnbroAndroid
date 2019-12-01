@@ -1,13 +1,14 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
     compileSdkVersion 29
+    dataBinding {
+        enabled = true
+    }
     defaultConfig {
         applicationId "com.morshues.connbroandroid"
         minSdkVersion 21
@@ -27,11 +28,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    // work-runtime-ktx 2.1.0 and above now requires Java 8
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
     def room_version = '2.2.1'
-    def lifecycle_version = '2.1.0'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -46,8 +50,13 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
 
     // lifecycle components
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycle_version"
+
+    // navigation components
+    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigation_version"
 
     // room components
     implementation "androidx.room:room-runtime:$room_version"
@@ -57,5 +66,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    androidTestImplementation "androidx.arch.core:core-testing:$lifecycle_version"
+    androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
 }
