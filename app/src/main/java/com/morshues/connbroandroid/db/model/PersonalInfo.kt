@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.sql.Date
+import java.util.*
 
 @Entity(
     tableName = "personal_info",
@@ -32,6 +32,6 @@ data class PersonalInfo(
     @ColumnInfo(name = "title") var title: String,
     @ColumnInfo(name = "description") var description: String = "",
     @ColumnInfo(name = "source_id", index = true) var sourceId: Long? = null,
-    @ColumnInfo(name = "known_at") var knownAt: Date? = Date(System.currentTimeMillis()),
-    @ColumnInfo(name = "discard_at") var discardAt: Date? = null
+    @ColumnInfo(name = "known_at") var knownAt: Calendar? = Calendar.getInstance(),
+    @ColumnInfo(name = "discard_at") var discardAt: Calendar? = null
 )

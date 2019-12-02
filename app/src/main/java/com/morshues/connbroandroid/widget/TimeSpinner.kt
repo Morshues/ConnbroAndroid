@@ -10,7 +10,6 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.util.DateTimeUtils
-import java.sql.Date
 import java.util.*
 
 class TimeSpinner(
@@ -43,7 +42,7 @@ class TimeSpinner(
                         skipPicker = false
                         return
                     }
-                    val c = DateTimeUtils.timeToCalender(textCache)
+                    val c = DateTimeUtils.timeToCalender(textCache) ?: Calendar.getInstance()
                     val dlg = TimePickerDialog(context,
                         TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                             textCache = DateTimeUtils.toTimeString(hourOfDay, minute)
@@ -76,40 +75,39 @@ class TimeSpinner(
         setSelection(0)
     }
 
-    fun setTime(date: Date?) {
-        textCache = DateTimeUtils.toTimeString(date)
+    fun setTime(c: Calendar?) {
+        textCache = DateTimeUtils.toTimeString(c)
         skipPicker = true
         setSelection(5)
     }
 
-    fun getTime(): Date? {
+    fun getTime(): Calendar? {
         val c = Calendar.getInstance()
         return when (selectedItemPosition) {
-            0 -> Date(c.timeInMillis)
+            0 -> c
             1 -> {
                 c.set(Calendar.HOUR_OF_DAY, 8)
                 c.set(Calendar.MINUTE, 0)
-                Date(c.timeInMillis)
+                c
             }
             2 -> {
                 c.set(Calendar.HOUR_OF_DAY, 13)
                 c.set(Calendar.MINUTE, 0)
-                Date(c.timeInMillis)
+                c
             }
             3 -> {
                 c.set(Calendar.HOUR_OF_DAY, 18)
                 c.set(Calendar.MINUTE, 0)
-                Date(c.timeInMillis)
+                c
             }
             4 -> {
                 c.set(Calendar.HOUR_OF_DAY, 20)
                 c.set(Calendar.MINUTE, 0)
-                Date(c.timeInMillis)
+                c
             }
             5 -> {
                 val view = selectedView as TextView
-                val time = DateTimeUtils.timeToCalender(view.text).timeInMillis
-                Date(time)
+                DateTimeUtils.timeToCalender(view.text)
             }
             else -> null
         }

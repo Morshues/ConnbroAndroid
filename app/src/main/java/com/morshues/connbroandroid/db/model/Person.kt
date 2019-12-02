@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.sql.Date
+import java.util.*
 
 @Entity(
     foreignKeys = [
@@ -21,7 +21,7 @@ data class Person(
     @ColumnInfo(name = "mid_name") var midName: String = "",
     @ColumnInfo(name = "last_name") var lastName: String,
     @ColumnInfo(name = "nick_name") var nickName: String,
-    @ColumnInfo(name = "birthday") var birthday: Date? = null,
+    @ColumnInfo(name = "birthday") var birthday: Calendar? = null,
     @ColumnInfo(name = "note") var note: String = ""
 ) {
     fun fullName(): String {

@@ -24,7 +24,6 @@ import com.morshues.connbroandroid.util.InjectorUtils
 import kotlinx.android.synthetic.main.partial_event_editing.view.*
 import kotlinx.android.synthetic.main.partial_personal_info_editing.view.et_description
 import kotlinx.android.synthetic.main.partial_personal_info_editing.view.et_title
-import java.sql.Date
 import java.util.*
 
 class FriendDetailFragment : Fragment() {
@@ -83,11 +82,11 @@ class FriendDetailFragment : Fragment() {
 
         binding.setDateEditListener { v ->
             if (v !is TextView) return@setDateEditListener
-            val c = DateTimeUtils.dateToCalender(v.text)
+            val c = DateTimeUtils.dateToCalender(v.text) ?: Calendar.getInstance()
             val dlg = DatePickerDialog(
                 requireContext(),
                 DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                    viewModel.updateBirthday(DateTimeUtils.toSqlDate(year, month, dayOfMonth))
+                    viewModel.updateBirthday(DateTimeUtils.dateToCalender(year, month, dayOfMonth))
                 }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)
             )
             dlg.show()
@@ -223,7 +222,7 @@ class FriendDetailFragment : Fragment() {
                     title = input.et_title.text.toString(),
                     description = input.et_description.text.toString(),
                     startTime = input.v_start_at.getDateTime(),
-                    endTime = Date(System.currentTimeMillis())
+                    endTime = Calendar.getInstance()
                 )
                 callback(newEvent)
             }

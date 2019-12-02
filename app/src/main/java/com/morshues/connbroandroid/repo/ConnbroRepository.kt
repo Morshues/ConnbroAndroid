@@ -95,7 +95,7 @@ class ConnbroRepository private constructor(context: Context) {
             eventAttendeeDao.insert(attendee)
             event.apply {
                 startTime?.let {
-                    ReminderUtils.addReminder(id.toInt(), it.time, title, description)
+                    ReminderUtils.addReminder(id.toInt(), it.timeInMillis, title, description)
                 }
             }
         }
@@ -106,7 +106,7 @@ class ConnbroRepository private constructor(context: Context) {
             eventDao.update(event)
             event.apply {
                 startTime?.let {
-                    ReminderUtils.updateReminder(id.toInt(), it.time, title, description)
+                    ReminderUtils.updateReminder(id.toInt(), it.timeInMillis, title, description)
                 }
             }
         }

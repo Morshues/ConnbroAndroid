@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.sql.Date
+import java.util.*
 
 @Entity(
     foreignKeys = [
@@ -23,7 +23,7 @@ data class Relationship(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     @ColumnInfo(name = "user_id", index = true) val userId: Long,
     @ColumnInfo(name = "person_id", index = true) val personId: Long,
-    @ColumnInfo(name = "first_met") val firstMet: Date?,
+    @ColumnInfo(name = "first_met") val firstMet: Calendar?,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "description") val description: String
 )

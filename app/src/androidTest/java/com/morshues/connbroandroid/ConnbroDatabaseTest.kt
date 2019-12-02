@@ -14,7 +14,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.sql.Date
+import java.util.*
 
 @RunWith(AndroidJUnit4::class)
 class ConnbroDatabaseTest {
@@ -61,7 +61,7 @@ class ConnbroDatabaseTest {
             midName = "",
             lastName = "Jackson",
             nickName = "DJ",
-            birthday = Date(1985, 3, 8)
+            birthday = GregorianCalendar(1985, 3, 8)
         )
         db.personDao().apply {
             val id = insert(person)
@@ -79,7 +79,7 @@ class ConnbroDatabaseTest {
             midName = "",
             lastName = "Jackson",
             nickName = "DJ",
-            birthday = Date(1985, 3, 8)
+            birthday = GregorianCalendar(1985, 3, 8)
         )
         val personId = db.personDao().insert(person)
 

@@ -33,7 +33,7 @@ class PersonDetail(
         val nowTime = System.currentTimeMillis()
         return events.sortedBy {
             if (it.startTime != null) {
-                abs(it.startTime!!.time - nowTime)
+                abs(it.startTime!!.timeInMillis - nowTime)
             } else {
                 Long.MAX_VALUE
             }

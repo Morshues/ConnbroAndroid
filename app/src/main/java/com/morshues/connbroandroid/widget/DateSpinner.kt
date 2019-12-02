@@ -10,7 +10,6 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.util.DateTimeUtils
-import java.sql.Date
 import java.util.*
 
 class DateSpinner(
@@ -43,7 +42,7 @@ class DateSpinner(
                         skipPicker = false
                         return
                     }
-                    val c = DateTimeUtils.dateToCalender(textCache)
+                    val c = DateTimeUtils.dateToCalender(textCache) ?: Calendar.getInstance()
                     val dlg = DatePickerDialog(context,
                         DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                             textCache = DateTimeUtils.toDateString(year, month, dayOfMonth)
@@ -76,25 +75,29 @@ class DateSpinner(
         setSelection(0)
     }
 
-    fun setDate(date: Date?) {
-        textCache = DateTimeUtils.toDateString(date)
+    fun setDate(calendar: Calendar?) {
+        textCache = DateTimeUtils.toDateString(calendar)
         skipPicker = true
         setSelection(3)
     }
 
-    fun getDate(): Date? {
+    fun getDate(): Calendar? {
         when (selectedItemPosition) {
-            0 -> return Date(System.currentTimeMillis())
-            1 -> return Date(System.currentTimeMillis() + A_DAY_IN_MILLISECOND)
-            2 -> return Date(System.currentTimeMillis() - A_DAY_IN_MILLISECOND)
+            0 -> return Calendar.getInstance()
+            1 -> {
+                val c = Calendar.getInstance()
+                c.add(Calendar.DAY_OF_MONTH, 1)
+                return c
+            }
+            2 -> {
+                val c = Calendar.getInstance()
+                c.add(Calendar.DAY_OF_MONTH, -1)
+                return c
+            }
             3 -> {
-                return DateTimeUtils.toSqlDate(textCache)
+                return DateTimeUtils.dateToCalender(textCache)
             }
         }
         return null
-    }
-
-    companion object {
-        private const val A_DAY_IN_MILLISECOND = 86_400_000L
     }
 }

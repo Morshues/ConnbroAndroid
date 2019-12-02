@@ -6,7 +6,7 @@ import android.widget.FrameLayout
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.util.DateTimeUtils
 import kotlinx.android.synthetic.main.view_datetime.view.*
-import java.sql.Date
+import java.util.*
 
 class DateTimeView(
     context: Context,
@@ -23,12 +23,12 @@ class DateTimeView(
         spn_time.reset()
     }
 
-    fun setDateTime(datetime: Date?) {
+    fun setDateTime(datetime: Calendar?) {
         spn_date.setDate(datetime)
         spn_time.setTime(datetime)
     }
 
-    fun getDateTime(): Date? {
+    fun getDateTime(): Calendar? {
         return DateTimeUtils.combineDateTime(spn_date.getDate(), spn_time.getTime())
     }
 }

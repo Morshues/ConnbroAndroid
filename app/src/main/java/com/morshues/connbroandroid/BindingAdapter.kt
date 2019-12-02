@@ -3,22 +3,23 @@ package com.morshues.connbroandroid
 import android.text.format.DateUtils
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import java.sql.Date
+import com.morshues.connbroandroid.util.DateTimeUtils
+import java.util.*
 
 @BindingAdapter("dateText")
-fun bindDateText(view: TextView, date: Date?) {
-    if (date == null) {
+fun bindDateText(view: TextView, c: Calendar?) {
+    if (c == null) {
         view.text = ""
     } else {
-        view.text = date.toString()
+        view.text = DateTimeUtils.toDateString(c)
     }
 }
 
 @BindingAdapter("dateRelativeText")
-fun bindDateRelativeText(view: TextView, date: Date?) {
-    if (date == null) {
+fun bindDateRelativeText(view: TextView, c: Calendar?) {
+    if (c == null) {
         view.text = ""
     } else {
-        view.text = DateUtils.getRelativeTimeSpanString(date.time)
+        view.text = DateUtils.getRelativeTimeSpanString(c.timeInMillis)
     }
 }

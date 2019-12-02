@@ -35,7 +35,7 @@ class FriendCreateFragment : Fragment() {
         binding = FragmentFriendCreateBinding.inflate(inflater, container, false)
 
         binding.setDateEditListener {
-            val c = DateTimeUtils.dateToCalender(binding.tvBirthday.text)
+            val c = DateTimeUtils.dateToCalender(binding.tvBirthday.text) ?: Calendar.getInstance()
             val dlg = DatePickerDialog(requireActivity(),
                 DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                     binding.tvBirthday.text = DateTimeUtils.toDateString(year, month, dayOfMonth)
@@ -74,7 +74,7 @@ class FriendCreateFragment : Fragment() {
                 midName = etMidName.text.toString().trim(),
                 lastName = etLastName.text.toString().trim(),
                 nickName = etNickName.text.toString().trim(),
-                birthday = DateTimeUtils.toSqlDate(tvBirthday.text),
+                birthday = DateTimeUtils.dateToCalender(tvBirthday.text),
                 note = etNote.text.toString().trim()
             )
             if (newFriend.nickName.isNotBlank() || newFriend.fullName().isNotBlank()) {

@@ -1,18 +1,18 @@
 package com.morshues.connbroandroid.db
 
 import androidx.room.TypeConverter
-import java.sql.Date
+import java.util.*
 
 
 class DateConverter {
 
-    @TypeConverter
-    fun fromTimestamp(value: Long?): Date? {
-        return if (value == null) null else Date(value)
+    @TypeConverter fun calendarToDatestamp(calendar: Calendar?): Long? = calendar?.timeInMillis
+
+    @TypeConverter fun datestampToCalendar(value: Long?): Calendar? {
+        if (value == null) {
+            return null
+        }
+        return Calendar.getInstance().apply { timeInMillis = value }
     }
 
-    @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? {
-        return date?.time
-    }
 }

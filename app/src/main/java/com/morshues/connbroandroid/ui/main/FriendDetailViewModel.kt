@@ -6,7 +6,7 @@ import com.morshues.connbroandroid.db.model.Event
 import com.morshues.connbroandroid.db.model.PersonDetail
 import com.morshues.connbroandroid.db.model.PersonalInfo
 import com.morshues.connbroandroid.repo.ConnbroRepository
-import java.sql.Date
+import java.util.*
 
 class FriendDetailViewModel(
     private val mRepository: ConnbroRepository,
@@ -42,9 +42,9 @@ class FriendDetailViewModel(
         mRepository.updatePerson(friend)
     }
 
-    fun updateBirthday(date: Date?) {
+    fun updateBirthday(c: Calendar?) {
         val friend = friendData.value?.person?: return
-        friend.birthday = date
+        friend.birthday = c
         mRepository.updatePerson(friend)
     }
 
