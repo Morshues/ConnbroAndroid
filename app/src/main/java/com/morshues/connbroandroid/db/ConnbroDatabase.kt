@@ -20,7 +20,8 @@ import com.morshues.connbroandroid.db.model.*
         Event::class,
         EventAttendee::class
     ],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 @TypeConverters(DateConverter::class)
 abstract class ConnbroDatabase : RoomDatabase() {
