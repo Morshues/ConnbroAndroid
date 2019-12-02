@@ -1,5 +1,6 @@
 package com.morshues.connbroandroid.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.morshues.connbroandroid.db.model.Event
 
@@ -9,7 +10,7 @@ interface EventDao {
     fun get(id: Long): Event
 
     @Query("SELECT * FROM event")
-    fun getAll(): List<Event>
+    fun getAll(): LiveData<List<Event>>
 
     @Insert
     fun insert(event: Event): Long

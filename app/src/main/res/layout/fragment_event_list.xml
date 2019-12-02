@@ -6,10 +6,10 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.main.FriendsFragment">
+            tools:context=".ui.event.EventListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_friends"
+                android:id="@+id/rv_events"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -17,15 +17,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/item_friend" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="@dimen/fab_margin"
-                app:srcCompat="@drawable/ic_add" />
+                tools:listitem="@layout/item_event" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -23,6 +23,7 @@
     <string name="no_note">No Note</string>
     <string name="msg_name_cannot_be_blank">Name or NickName can not be blank</string>
 
+    <string name="menu_event_list">Event List</string>
     <string name="menu_friend_save">Save</string>
     <string name="menu_friend_add_inform">Add Information</string>
     <string name="menu_friend_add_event">Add Event</string>

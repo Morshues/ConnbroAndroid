@@ -18,6 +18,10 @@
                 android:id="@+id/action_main_fragment_to_friend_detail_fragment"
                 app:destination="@id/friend_detail_fragment" />
 
+        <action
+                android:id="@+id/action_main_fragment_to_event_list_fragment"
+                app:destination="@id/event_list_fragment" />
+
     </fragment>
 
     <fragment
@@ -32,6 +36,24 @@
             tools:layout="@layout/fragment_friend_detail">
         <argument
                 android:name="friend_id"
+                app:argType="long" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/event_list_fragment"
+            android:name="com.morshues.connbroandroid.ui.event.EventListFragment"
+            tools:layout="@layout/fragment_event_list">
+        <action
+                android:id="@+id/action_event_list_fragment_to_event_detail_fragment"
+                app:destination="@id/event_detail_fragment" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/event_detail_fragment"
+            android:name="com.morshues.connbroandroid.ui.event.EventDetailFragment"
+            tools:layout="@layout/fragment_event_detail">
+        <argument
+                android:name="event_id"
                 app:argType="long" />
     </fragment>
 
