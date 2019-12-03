@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
-class FriendsViewModel(
+class FriendListViewModel(
     private val mRepository: ConnbroRepository
 ) : ViewModel() {
     private val viewModelJob = SupervisorJob()

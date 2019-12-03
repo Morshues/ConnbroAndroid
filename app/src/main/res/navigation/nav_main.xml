@@ -7,8 +7,8 @@
 
     <fragment
             android:id="@+id/main_fragment"
-            android:name="com.morshues.connbroandroid.ui.main.FriendsFragment"
-            tools:layout="@layout/fragment_friends">
+            android:name="com.morshues.connbroandroid.ui.main.FriendListFragment"
+            tools:layout="@layout/fragment_friend_list">
 
         <action
                 android:id="@+id/action_main_fragment_to_friend_create_fragment"

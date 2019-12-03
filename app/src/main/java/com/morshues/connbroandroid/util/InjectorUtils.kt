@@ -8,7 +8,7 @@ import com.morshues.connbroandroid.repo.EventRepository
 import com.morshues.connbroandroid.ui.event.EventListViewModel
 import com.morshues.connbroandroid.ui.main.FriendCreateViewModel
 import com.morshues.connbroandroid.ui.main.FriendDetailViewModel
-import com.morshues.connbroandroid.ui.main.FriendsViewModel
+import com.morshues.connbroandroid.ui.main.FriendListViewModel
 import com.morshues.connbroandroid.ui.main.viewModelFactory
 
 /**
@@ -27,7 +27,7 @@ object InjectorUtils {
 
     fun provideFriendListViewModelFactory(context: Context): ViewModelProvider.Factory {
         val repository = getConnbroRepository(context)
-        return viewModelFactory { FriendsViewModel(repository) }
+        return viewModelFactory { FriendListViewModel(repository) }
     }
 
     fun provideFriendCreateViewModelFactory(context: Context): ViewModelProvider.Factory {

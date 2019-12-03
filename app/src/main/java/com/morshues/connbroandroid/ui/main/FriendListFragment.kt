@@ -7,13 +7,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import com.morshues.connbroandroid.R
-import com.morshues.connbroandroid.databinding.FragmentFriendsBinding
+import com.morshues.connbroandroid.databinding.FragmentFriendListBinding
 import com.morshues.connbroandroid.util.InjectorUtils
 
-class FriendsFragment : Fragment() {
+class FriendListFragment : Fragment() {
 
-    private lateinit var binding: FragmentFriendsBinding
-    private val viewModel: FriendsViewModel by viewModels {
+    private lateinit var binding: FragmentFriendListBinding
+    private val viewModel: FriendListViewModel by viewModels {
         InjectorUtils.provideFriendListViewModelFactory(requireContext())
     }
 
@@ -27,15 +27,15 @@ class FriendsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentFriendsBinding.inflate(inflater, container, false)
+        binding = FragmentFriendListBinding.inflate(inflater, container, false)
 
         val adapter = FriendsAdapter()
-        binding.rvFriends.adapter = adapter
+        binding.rvFriendList.adapter = adapter
         subscribeUi(adapter)
 
         binding.btnAdd.setOnClickListener {
             val direction =
-                FriendsFragmentDirections.actionMainFragmentToFriendCreateFragment()
+                FriendListFragmentDirections.actionMainFragmentToFriendCreateFragment()
             it.findNavController().navigate(direction)
         }
 
@@ -51,7 +51,7 @@ class FriendsFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_event -> {
-                val direction = FriendsFragmentDirections.actionMainFragmentToEventListFragment()
+                val direction = FriendListFragmentDirections.actionMainFragmentToEventListFragment()
                 view?.findNavController()?.navigate(direction)
                 true
             }
