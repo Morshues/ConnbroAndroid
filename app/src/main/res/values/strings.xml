@@ -7,6 +7,7 @@
     <string name="add">Add</string>
     <string name="update">Update</string>
     <string name="deleted">Deleted</string>
+    <string name="undo">Undo</string>
 
     <!-- Common Empty Hints -->
     <string name="empty"> (empty) </string>

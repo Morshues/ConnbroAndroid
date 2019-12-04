@@ -67,9 +67,21 @@ class FriendDetailViewModel(
         }
     }
 
+    fun restoreInfo(info: PersonalInfo) {
+        viewModelScope.launch {
+            infoRepository.insertPersonalInfo(info)
+        }
+    }
+
     fun deleteEvent(event: Event) {
         viewModelScope.launch {
             eventRepository.deleteEvent(event)
+        }
+    }
+
+    fun restoreEvent(event: Event) {
+        viewModelScope.launch {
+            eventRepository.insertEvent(event, userId, friendId)
         }
     }
 

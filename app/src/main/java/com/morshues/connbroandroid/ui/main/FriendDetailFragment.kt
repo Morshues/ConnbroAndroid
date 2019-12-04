@@ -182,9 +182,8 @@ class FriendDetailFragment : Fragment() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                viewModel.deleteEvent(eventsAdapter.getEventAt(position))
-                Snackbar.make(viewHolder.itemView, R.string.deleted, Snackbar.LENGTH_SHORT).show()
+                val event = eventsAdapter.getEventAt(viewHolder.adapterPosition)
+                deleteEvent(event)
             }
         }).attachToRecyclerView(binding.rvEvents)
 
@@ -201,10 +200,29 @@ class FriendDetailFragment : Fragment() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                viewModel.deleteInfo(infoAdapter.getInfoAt(position))
-                Snackbar.make(viewHolder.itemView, R.string.deleted, Snackbar.LENGTH_SHORT).show()
+                val personalInfo = infoAdapter.getInfoAt(viewHolder.adapterPosition)
+                deletePersonalInfo(personalInfo)
             }
         }).attachToRecyclerView(binding.rvPersonInfo)
+    }
+
+    private var mLastDeletedEvent: Event? = null
+    private fun deleteEvent(event: Event) {
+        mLastDeletedEvent = event
+        viewModel.deleteEvent(event)
+
+        Snackbar.make(binding.root, R.string.deleted, Snackbar.LENGTH_LONG)
+            .setAction(R.string.undo) { viewModel.restoreEvent(mLastDeletedEvent!!) }
+            .show()
+    }
+
+    private var mLastDeletedInfo: PersonalInfo? = null
+    private fun deletePersonalInfo(info: PersonalInfo) {
+        mLastDeletedInfo = info
+        viewModel.deleteInfo(info)
+
+        Snackbar.make(binding.root, R.string.deleted, Snackbar.LENGTH_LONG)
+            .setAction(R.string.undo) { viewModel.restoreInfo(mLastDeletedInfo!!) }
+            .show()
     }
 }
