@@ -20,6 +20,8 @@ object ReminderUtils {
     }
 
     fun addReminder(code: Int, time: Long, title: String, description: String) {
+        if (time < System.currentTimeMillis() + 1000L) return
+
         val context = contextRef.get() ?: return
         val intent = Intent(context, ReminderReceiver::class.java)
         intent.putExtra(ARG_REMINDER_CODE, code)
@@ -31,6 +33,8 @@ object ReminderUtils {
     }
 
     fun updateReminder(code: Int, time: Long, title: String, description: String) {
+        if (time < System.currentTimeMillis() + 1000L) return
+
         val context = contextRef.get() ?: return
         val intent = Intent(context, ReminderReceiver::class.java)
         intent.putExtra(ARG_REMINDER_CODE, code)
