@@ -5,8 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.morshues.connbroandroid.db.dao.*
 import com.morshues.connbroandroid.db.model.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @Database(
     entities = [
@@ -42,11 +46,24 @@ abstract class ConnbroDatabase : RoomDatabase() {
         }
 
         private fun buildDatabase(context: Context): ConnbroDatabase {
-            return Room.databaseBuilder(
-                context.applicationContext,
-                ConnbroDatabase::class.java,
-                "connbro.db"
-            ).build()
+            return Room.databaseBuilder(context, ConnbroDatabase::class.java, "connbro.db")
+                .addCallback(seedDatabaseCallback(context))
+                .build()
+        }
+
+        private fun seedDatabaseCallback(context: Context): Callback {
+            return object : Callback() {
+                override fun onCreate(db: SupportSQLiteDatabase) {
+                    super.onCreate(db)
+                    GlobalScope.launch(Dispatchers.IO) {
+                        val userDao = getInstance(context).userDao()
+                        userDao.insert(User(
+                            account = "default_user",
+                            password = "default_password"
+                        ))
+                    }
+                }
+            }
         }
     }
 }

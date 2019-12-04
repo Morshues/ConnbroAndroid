@@ -39,6 +39,7 @@ class FriendsAdapter : ListAdapter<PersonDetail, RecyclerView.ViewHolder>(DIFF_C
         ) {
             val direction =
                 FriendListFragmentDirections.actionMainFragmentToFriendDetailFragment(
+                    friend.person.userId,
                     friend.person.id
                 )
             it.findNavController().navigate(direction)

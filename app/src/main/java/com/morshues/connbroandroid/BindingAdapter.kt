@@ -4,7 +4,13 @@ import android.text.format.DateUtils
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.morshues.connbroandroid.util.DateTimeUtils
+import com.morshues.connbroandroid.widget.DateTimeView
 import java.util.*
+
+@BindingAdapter("dateTime")
+fun bindDateTime(view: DateTimeView, c: Calendar?) {
+    view.setDateTime(c)
+}
 
 @BindingAdapter("dateText")
 fun bindDateText(view: TextView, c: Calendar?) {

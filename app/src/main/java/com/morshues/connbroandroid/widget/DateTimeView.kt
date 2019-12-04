@@ -24,6 +24,9 @@ class DateTimeView(
     }
 
     fun setDateTime(datetime: Calendar?) {
+        if (datetime == null) {
+            return
+        }
         spn_date.setDate(datetime)
         spn_time.setTime(datetime)
     }

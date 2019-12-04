@@ -35,8 +35,17 @@
             android:name="com.morshues.connbroandroid.ui.main.FriendDetailFragment"
             tools:layout="@layout/fragment_friend_detail">
         <argument
+                android:name="user_id"
+                app:argType="long" />
+        <argument
                 android:name="friend_id"
                 app:argType="long" />
+        <action
+                android:id="@+id/action_friend_detail_fragment_to_event_editing_dialog"
+                app:destination="@id/event_editing_dialog" />
+        <action
+                android:id="@+id/action_friend_detail_fragment_to_info_editing_dialog"
+                app:destination="@id/personal_info_editing_dialog" />
     </fragment>
 
     <fragment
@@ -56,5 +65,35 @@
                 android:name="event_id"
                 app:argType="long" />
     </fragment>
+
+    <dialog
+            android:id="@+id/event_editing_dialog"
+            android:name="com.morshues.connbroandroid.ui.event.EventEditingDialog"
+            tools:layout="@layout/dialog_event_editing">
+        <argument
+                android:name="user_id"
+                app:argType="long" />
+        <argument
+                android:name="person_id"
+                app:argType="long" />
+        <argument
+                android:name="event_id"
+                app:argType="long" />
+    </dialog>
+
+    <dialog
+            android:id="@+id/personal_info_editing_dialog"
+            android:name="com.morshues.connbroandroid.ui.main.PersonalInfoEditingDialog"
+            tools:layout="@layout/dialog_personal_info_editing">
+        <argument
+                android:name="user_id"
+                app:argType="long" />
+        <argument
+                android:name="person_id"
+                app:argType="long" />
+        <argument
+                android:name="personal_info_id"
+                app:argType="long" />
+    </dialog>
 
 </navigation>

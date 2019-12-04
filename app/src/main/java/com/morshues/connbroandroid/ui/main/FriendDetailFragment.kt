@@ -4,10 +4,10 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -21,9 +21,6 @@ import com.morshues.connbroandroid.db.model.PersonalInfo
 import com.morshues.connbroandroid.util.ContentEditUtils
 import com.morshues.connbroandroid.util.DateTimeUtils
 import com.morshues.connbroandroid.util.InjectorUtils
-import kotlinx.android.synthetic.main.partial_event_editing.view.*
-import kotlinx.android.synthetic.main.partial_personal_info_editing.view.et_description
-import kotlinx.android.synthetic.main.partial_personal_info_editing.view.et_title
 import java.util.*
 
 class FriendDetailFragment : Fragment() {
@@ -31,7 +28,11 @@ class FriendDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentFriendDetailBinding
     private val viewModel: FriendDetailViewModel by viewModels {
-        InjectorUtils.provideFriendDetailViewModelFactory(requireContext(), args.friendId)
+        InjectorUtils.provideFriendDetailViewModelFactory(
+            requireContext(),
+            args.userId,
+            args.friendId
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,15 +112,23 @@ class FriendDetailFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_add_info -> {
-                editInfoDialog(null) {
-                    viewModel.insertInfo(it)
-                }
+                val direction =
+                    FriendDetailFragmentDirections.actionFriendDetailFragmentToInfoEditingDialog(
+                        viewModel.userId,
+                        viewModel.friendId,
+                        0
+                    )
+                findNavController().navigate(direction)
                 true
             }
             R.id.action_add_event -> {
-                editEventDialog(null) {
-                    viewModel.insertEvent(it)
-                }
+                val direction =
+                    FriendDetailFragmentDirections.actionFriendDetailFragmentToEventEditingDialog(
+                        viewModel.userId,
+                        viewModel.friendId,
+                        0
+                    )
+                findNavController().navigate(direction)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -139,16 +148,24 @@ class FriendDetailFragment : Fragment() {
 
         eventsAdapter.setOnItemClickListener(object : PersonalEventsAdapter.OnItemClickListener {
             override fun onEventUpdate(event: Event) {
-                editEventDialog(event) {
-                    viewModel.updateEvent(it)
-                }
+                val direction =
+                    FriendDetailFragmentDirections.actionFriendDetailFragmentToEventEditingDialog(
+                        viewModel.userId,
+                        viewModel.friendId,
+                        event.id
+                    )
+                findNavController().navigate(direction)
             }
         })
         infoAdapter.setOnItemClickListener(object : PersonalInfoAdapter.OnItemClickListener {
             override fun onInfoUpdate(info: PersonalInfo) {
-                editInfoDialog(info) {
-                    viewModel.updateInfo(it)
-                }
+                val direction =
+                    FriendDetailFragmentDirections.actionFriendDetailFragmentToInfoEditingDialog(
+                        viewModel.userId,
+                        viewModel.friendId,
+                        info.id
+                    )
+                findNavController().navigate(direction)
             }
         })
 
@@ -189,86 +206,5 @@ class FriendDetailFragment : Fragment() {
                 Snackbar.make(viewHolder.itemView, R.string.deleted, Snackbar.LENGTH_SHORT).show()
             }
         }).attachToRecyclerView(binding.rvPersonInfo)
-    }
-
-    private fun editEventDialog(event: Event?, callback: (event: Event) -> Unit) {
-        val context = activity ?: return
-        val eventId = event?.id ?: 0
-        val resStrConfirm = if (event == null) R.string.add else R.string.update
-        val builder = AlertDialog.Builder(context).apply {
-            val input = View.inflate(context, R.layout.partial_event_editing, null)
-            if (event != null) {
-                with(input) {
-                    et_title.setText(event.title)
-                    et_description.setText(event.description)
-                    v_start_at.setDateTime(event.startTime)
-                }
-            }
-            setTitle(R.string.personal_event)
-            setView(input)
-            setPositiveButton(resStrConfirm) { dialog, _ ->
-                if (input.et_title.text.toString().isBlank()) {
-                    Snackbar.make(
-                        binding.root,
-                        R.string.msg_title_cannot_be_blank,
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                    return@setPositiveButton
-                }
-
-                dialog.dismiss()
-                val newEvent = Event(
-                    id = eventId,
-                    title = input.et_title.text.toString(),
-                    description = input.et_description.text.toString(),
-                    startTime = input.v_start_at.getDateTime(),
-                    endTime = Calendar.getInstance()
-                )
-                callback(newEvent)
-            }
-            setNegativeButton(R.string.cancel) { dialog, _ ->
-                dialog.dismiss()
-            }
-        }
-        builder.create().show()
-    }
-
-    private fun editInfoDialog(info: PersonalInfo?, callback: (info: PersonalInfo) -> Unit) {
-        val context = activity ?: return
-        val infoId = info?.id ?: 0
-        val resStrConfirm = if (info == null) R.string.add else R.string.update
-        val builder = AlertDialog.Builder(context).apply {
-            val input = View.inflate(context, R.layout.partial_personal_info_editing, null)
-            if (info != null) {
-                with(input) {
-                    et_title.setText(info.title)
-                    et_description.setText(info.description)
-                }
-            }
-            setTitle(R.string.personal_info)
-            setView(input)
-            setPositiveButton(resStrConfirm) { dialog, _ ->
-                if (input.et_title.text.toString().isBlank()) {
-                    Snackbar.make(
-                        binding.root,
-                        R.string.msg_title_cannot_be_blank,
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                    return@setPositiveButton
-                }
-
-                dialog.dismiss()
-                val newInfo = PersonalInfo(
-                    id = infoId,
-                    title = input.et_title.text.toString(),
-                    description = input.et_description.text.toString()
-                )
-                callback(newInfo)
-            }
-            setNegativeButton(R.string.cancel) { dialog, _ ->
-                dialog.dismiss()
-            }
-        }
-        builder.create().show()
     }
 }

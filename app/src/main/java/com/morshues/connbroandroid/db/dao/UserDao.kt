@@ -8,6 +8,9 @@ import com.morshues.connbroandroid.db.model.User
 
 @Dao
 interface UserDao {
+    @Query("SELECT * FROM user LIMIT 1")
+    fun getFirst(): User
+
     @Query("SELECT * FROM user WHERE id = :id")
     fun get(id: Long): User
 

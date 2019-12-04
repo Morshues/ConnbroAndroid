@@ -2,15 +2,22 @@ package com.morshues.connbroandroid.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.morshues.connbroandroid.db.model.Event
 import com.morshues.connbroandroid.db.model.PersonDetail
 import com.morshues.connbroandroid.db.model.PersonalInfo
-import com.morshues.connbroandroid.repo.ConnbroRepository
+import com.morshues.connbroandroid.repo.PersonRepository
+import com.morshues.connbroandroid.repo.EventRepository
+import com.morshues.connbroandroid.repo.PersonalInfoRepository
+import kotlinx.coroutines.launch
 import java.util.*
 
 class FriendDetailViewModel(
-    private val mRepository: ConnbroRepository,
-    friendId: Long
+    private val mRepository: PersonRepository,
+    private val eventRepository: EventRepository,
+    private val infoRepository: PersonalInfoRepository,
+    val userId: Long,
+    val friendId: Long
 ) : ViewModel() {
     val friendData: LiveData<PersonDetail> = mRepository.getPerson(friendId)
 
@@ -54,38 +61,16 @@ class FriendDetailViewModel(
         mRepository.updatePerson(friend)
     }
 
-    fun insertInfo(info: PersonalInfo) {
-        val friend = friendData.value?.person?: return
-        info.userId = friend.userId
-        info.personId = friend.id
-        mRepository.insertPersonalInfo(info)
-    }
-
-    fun updateInfo(info: PersonalInfo) {
-        val friend = friendData.value?.person?: return
-        info.userId = friend.userId
-        info.personId = friend.id
-        mRepository.updatePersonalInfo(info)
-    }
-
     fun deleteInfo(info: PersonalInfo) {
-        mRepository.deletePersonalInfo(info)
-    }
-
-    fun insertEvent(event: Event) {
-        val friend = friendData.value?.person?: return
-        event.userId = friend.userId
-        mRepository.insertEvent(event, friend)
-    }
-
-    fun updateEvent(event: Event) {
-        val friend = friendData.value?.person?: return
-        event.userId = friend.userId
-        mRepository.updateEvent(event)
+        viewModelScope.launch {
+            infoRepository.deletePersonalInfo(info)
+        }
     }
 
     fun deleteEvent(event: Event) {
-        mRepository.deleteEvent(event)
+        viewModelScope.launch {
+            eventRepository.deleteEvent(event)
+        }
     }
 
 }
