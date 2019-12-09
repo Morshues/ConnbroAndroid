@@ -83,23 +83,25 @@ class ConnbroDatabaseTest {
         )
         val personId = db.personDao().insert(person)
 
-        val c1 = PersonalInfo(
+        val info1 = PersonalInfo(
             userId = testUser.id,
             title = "Love to eat",
             personId = personId
         )
-        val c2 = PersonalInfo(
+        val info2 = PersonalInfo(
             userId = testUser.id,
             title = "Flat fire",
             personId = personId
         )
         db.personalInfoDao().let {
-            val c1Id = it.insert(c1)
-            val charTest1 = it.get(c1Id)
-            Assert.assertEquals(c1.description, charTest1.description)
-            val c2Id = it.insert(c2)
-            val charTest2 = it.get(c2Id)
-            Assert.assertEquals(c2.description, charTest2.description)
+            val c1Id = it.insertSync(info1)
+            it.get(c1Id).observeOnce { info ->
+                Assert.assertEquals(info1.description, info.description)
+            }
+            val c2Id = it.insertSync(info2)
+            it.get(c2Id).observeOnce { info ->
+                Assert.assertEquals(info2.description, info.description)
+            }
             val charTest3 = it.getAll()
             Assert.assertTrue(charTest3.size == 2)
             val charTest4 = it.getByPerson(personId)
