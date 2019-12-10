@@ -22,18 +22,20 @@ import kotlinx.coroutines.launch
         GroupMember::class,
         Place::class,
         Event::class,
-        EventAttendee::class
+        EventAttendee::class,
+        Reminder::class
     ],
     version = 1,
     exportSchema = false
 )
-@TypeConverters(DateConverter::class)
+@TypeConverters(DateConverter::class, RemindTypeConverter::class)
 abstract class ConnbroDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun personDao(): PersonDao
     abstract fun personalInfoDao(): PersonalInfoDao
     abstract fun eventDao(): EventDao
     abstract fun eventAttendeeDao(): EventAttendeeDao
+    abstract fun reminderDao(): ReminderDao
 
     companion object {
         @Volatile

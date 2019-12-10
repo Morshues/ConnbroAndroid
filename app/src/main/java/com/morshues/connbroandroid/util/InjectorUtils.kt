@@ -7,12 +7,14 @@ import com.morshues.connbroandroid.db.ConnbroDatabase
 import com.morshues.connbroandroid.repo.PersonRepository
 import com.morshues.connbroandroid.repo.EventRepository
 import com.morshues.connbroandroid.repo.PersonalInfoRepository
+import com.morshues.connbroandroid.repo.ReminderRepository
 import com.morshues.connbroandroid.ui.event.EventEditingViewModel
 import com.morshues.connbroandroid.ui.event.EventListViewModel
 import com.morshues.connbroandroid.ui.main.FriendCreateViewModel
 import com.morshues.connbroandroid.ui.main.FriendDetailViewModel
 import com.morshues.connbroandroid.ui.main.FriendListViewModel
 import com.morshues.connbroandroid.ui.main.PersonalInfoEditingViewModel
+import com.morshues.connbroandroid.widget.PeriodPickerViewModel
 
 /**
  * Static methods used to inject classes needed for various Activities and Fragments.
@@ -43,6 +45,16 @@ object InjectorUtils {
         return PersonalInfoRepository.getInstance(
             ConnbroDatabase.getInstance(context.applicationContext).personalInfoDao()
         )
+    }
+
+    private fun getReminderRepository(context: Context): ReminderRepository {
+        return ReminderRepository.getInstance(
+            ConnbroDatabase.getInstance(context.applicationContext).reminderDao()
+        )
+    }
+
+    fun providePeriodPickerViewModelFactory(): ViewModelProvider.Factory {
+        return viewModelFactory { PeriodPickerViewModel() }
     }
 
     fun provideFriendListViewModelFactory(context: Context): ViewModelProvider.Factory {
