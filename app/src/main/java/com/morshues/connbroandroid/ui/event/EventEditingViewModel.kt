@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.morshues.connbroandroid.db.model.Event
 import com.morshues.connbroandroid.repo.EventRepository
+import com.morshues.connbroandroid.widget.Frequency
 import kotlinx.coroutines.launch
 
 class EventEditingViewModel(
@@ -13,6 +14,7 @@ class EventEditingViewModel(
     private val friendId: Long
 ) : ViewModel() {
     val event = eventRepository.getEvent(eventId)
+    val frequency = Frequency()
 
     fun addEvent(event: Event) {
         event.userId = userId

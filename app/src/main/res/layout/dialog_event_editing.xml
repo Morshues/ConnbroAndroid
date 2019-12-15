@@ -9,6 +9,10 @@
                 type="com.morshues.connbroandroid.db.model.Event" />
 
         <variable
+                name="frequency"
+                type="com.morshues.connbroandroid.widget.Frequency" />
+
+        <variable
                 name="editFrequencyListener"
                 type="android.view.View.OnClickListener" />
     </data>
@@ -105,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:onClick="@{editFrequencyListener}"
-                    android:text="@string/personal_event_freq_once"
+                    app:frequency="@{frequency}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

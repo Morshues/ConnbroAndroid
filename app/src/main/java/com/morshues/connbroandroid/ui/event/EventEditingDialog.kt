@@ -20,7 +20,7 @@ class EventEditingDialog : DialogFragment() {
     private val args: EventEditingDialogArgs by navArgs()
 
     private lateinit var binding: DialogEventEditingBinding
-    private val viewModel: EventEditingViewModel by viewModels {
+    private val eventViewModel: EventEditingViewModel by viewModels {
         InjectorUtils.provideEventEditingViewModelFactory(
             requireContext(),
             args.userId,
@@ -37,9 +37,10 @@ class EventEditingDialog : DialogFragment() {
                 null,
                 false
             )
-            viewModel.event.observe(requireActivity(), Observer<Event> {
+            eventViewModel.event.observe(requireActivity(), Observer<Event> {
                 binding.event = it
             })
+            binding.frequency = eventViewModel.frequency
             binding.setEditFrequencyListener {
                 val timestamp =
                     binding.vStartAt.getDateTime()?.timeInMillis ?: System.currentTimeMillis()
@@ -51,7 +52,7 @@ class EventEditingDialog : DialogFragment() {
             }
             setTitle(R.string.personal_event)
             setView(binding.root)
-            val resStrConfirm = if (viewModel.eventId == 0L) R.string.add else R.string.update
+            val resStrConfirm = if (eventViewModel.eventId == 0L) R.string.add else R.string.update
             setPositiveButton(resStrConfirm) { dialog, _ ->
                 if (binding.etTitle.text.isBlank()) {
                     return@setPositiveButton
@@ -63,7 +64,7 @@ class EventEditingDialog : DialogFragment() {
                     description = binding.etDescription.text.toString()
                     startTime = binding.vStartAt.getDateTime()
                     endTime = Calendar.getInstance()
-                    viewModel.updateEvent(this)
+                    eventViewModel.updateEvent(this)
                 } ?: run {
                     val newEvent = Event(
                         title =  binding.etTitle.text.toString(),
@@ -71,7 +72,7 @@ class EventEditingDialog : DialogFragment() {
                         startTime = binding.vStartAt.getDateTime(),
                         endTime = Calendar.getInstance()
                     )
-                    viewModel.addEvent(newEvent)
+                    eventViewModel.addEvent(newEvent)
                 }
             }
             setNegativeButton(R.string.cancel) { dialog, _ ->

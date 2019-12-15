@@ -35,6 +35,10 @@
     <string name="personal_event_start_at">Start At</string>
     <string name="personal_event_freq">Frequency</string>
     <string name="personal_event_freq_once">One-time</string>
+    <string name="personal_event_freq_daily">Daily</string>
+    <string name="personal_event_freq_weekly">Weekly</string>
+    <string name="personal_event_freq_monthly">Monthly</string>
+    <string name="personal_event_freq_yearly">Yearly</string>
     <string name="personal_event_end_at">End At</string>
     <string-array name="personal_event_date">
         <item>Today</item>

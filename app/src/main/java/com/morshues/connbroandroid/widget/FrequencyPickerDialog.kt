@@ -11,7 +11,6 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.databinding.DialogFrequencyPickerBinding
@@ -41,6 +40,7 @@ class FrequencyPickerDialog : DialogFragment() {
         }.create()
     }
     private fun subscribeUI(binding: DialogFrequencyPickerBinding) {
+        binding.frequency = viewModel.frequency
         binding.onTypeSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
@@ -50,10 +50,10 @@ class FrequencyPickerDialog : DialogFragment() {
                 position: Int,
                 id: Long
             ) {
-                viewModel.frequency.value?.setType(position)
+                viewModel.frequency.setType(position)
             }
         }
-        val date = viewModel.frequency.value?.defaultCalendar ?: GregorianCalendar()
+        val date = viewModel.frequency.defaultCalendar
 
         val dfs = DateFormatSymbols()
         val month = dfs.months[date.get(Calendar.MONTH)]
@@ -68,12 +68,9 @@ class FrequencyPickerDialog : DialogFragment() {
             dayOfWeek
         )
         binding.setOnSaveListener {
-            onResult(viewModel.frequency.value!!)
+            onResult(viewModel.frequency)
             this.dismiss()
         }
-        viewModel.frequency.observe(requireActivity(), Observer {
-            binding.frequency = it
-        })
     }
 
     var onResult: (freq: Frequency) -> Unit = {}
