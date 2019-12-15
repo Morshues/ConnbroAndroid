@@ -7,10 +7,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.morshues.connbroandroid.databinding.ItemPersonalEventBinding
 import com.morshues.connbroandroid.db.model.Event
+import java.lang.ref.WeakReference
 
 class PersonalEventsAdapter :
     ListAdapter<Event, PersonalEventsAdapter.PersonalEventHolder>(DIFF_CALLBACK) {
-    private var mOnItemClickListener: OnItemClickListener? = null
+    private var mOnItemClickListener: WeakReference<OnItemClickListener> =
+        WeakReference<OnItemClickListener>(null)
 
     fun getEventAt(position: Int): Event {
         return getItem(position)
@@ -32,7 +34,7 @@ class PersonalEventsAdapter :
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.setClickListener {
-                mOnItemClickListener?.onEventUpdate(getItem(adapterPosition))
+                mOnItemClickListener.get()?.onEventUpdate(getItem(adapterPosition))
             }
         }
 
@@ -49,7 +51,7 @@ class PersonalEventsAdapter :
     }
 
     fun setOnItemClickListener(l: OnItemClickListener) {
-        mOnItemClickListener = l
+        mOnItemClickListener = WeakReference(l)
     }
 
     companion object {
