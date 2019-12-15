@@ -14,7 +14,8 @@ import com.morshues.connbroandroid.ui.main.FriendCreateViewModel
 import com.morshues.connbroandroid.ui.main.FriendDetailViewModel
 import com.morshues.connbroandroid.ui.main.FriendListViewModel
 import com.morshues.connbroandroid.ui.main.PersonalInfoEditingViewModel
-import com.morshues.connbroandroid.widget.PeriodPickerViewModel
+import com.morshues.connbroandroid.widget.Frequency
+import com.morshues.connbroandroid.widget.FrequencyPickerViewModel
 
 /**
  * Static methods used to inject classes needed for various Activities and Fragments.
@@ -51,10 +52,6 @@ object InjectorUtils {
         return ReminderRepository.getInstance(
             ConnbroDatabase.getInstance(context.applicationContext).reminderDao()
         )
-    }
-
-    fun providePeriodPickerViewModelFactory(): ViewModelProvider.Factory {
-        return viewModelFactory { PeriodPickerViewModel() }
     }
 
     fun provideFriendListViewModelFactory(context: Context): ViewModelProvider.Factory {
@@ -106,6 +103,10 @@ object InjectorUtils {
                 friendId = friendId
             )
         }
+    }
+
+    fun provideFrequencyPickerViewModelFactory(timestamp: Long): ViewModelProvider.Factory {
+        return viewModelFactory { FrequencyPickerViewModel(Frequency(timestamp)) }
     }
 
     fun provideInfoEditingViewModelFactory(

@@ -33,6 +33,8 @@
     <string name="personal_event_title">Title</string>
     <string name="personal_event_description">Description</string>
     <string name="personal_event_start_at">Start At</string>
+    <string name="personal_event_freq">Frequency</string>
+    <string name="personal_event_freq_once">One-time</string>
     <string name="personal_event_end_at">End At</string>
     <string-array name="personal_event_date">
         <item>Today</item>
@@ -55,6 +57,42 @@
     <string name="msg_title_cannot_be_blank">Title can not be blank</string>
 
     <string name="create_friend">Add New Friend</string>
+
+    <!-- Frequency Picker -->
+    <string-array name="freq_picker_type_arr">
+        <item>Repeat Daily</item>
+        <item>Repeat Weekly</item>
+        <item>Repeat Monthly</item>
+        <item>Repeat Yearly</item>
+    </string-array>
+    <string name="freq_picker_every_prefix">Every</string>
+    <plurals name="freq_picker_every_day">
+        <item quantity="one">day</item>
+        <item quantity="other">days</item>
+    </plurals>
+    <plurals name="freq_picker_every_week">
+        <item quantity="one">week</item>
+        <item quantity="other">weeks</item>
+    </plurals>
+    <plurals name="freq_picker_every_month">
+        <item quantity="one">month</item>
+        <item quantity="other">months</item>
+    </plurals>
+    <plurals name="freq_picker_every_year">
+        <item quantity="one">year</item>
+        <item quantity="other">years</item>
+    </plurals>
+    <string name="day_of_week_1">Sun</string>
+    <string name="day_of_week_2">Mon</string>
+    <string name="day_of_week_3">Tue</string>
+    <string name="day_of_week_4">Wed</string>
+    <string name="day_of_week_5">Thu</string>
+    <string name="day_of_week_6">Fri</string>
+    <string name="day_of_week_7">Sat</string>
+    <string name="freq_same_day_of_month">on the same day each month</string>
+    <string name="freq_same_day_of_week_of_month">on every %1$s %2$s</string>
+    <string name="freq_same_day_of_year">on the same day each year</string>
+    <string name="freq_same_day_of_week_of_month_of_year">on every %2$s %3$s in %1$s</string>
 
     <!-- Notification Channel -->
     <string name="channel_reminder_event_title">Event Reminder</string>

@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.databinding.DialogEventEditingBinding
@@ -39,6 +40,15 @@ class EventEditingDialog : DialogFragment() {
             viewModel.event.observe(requireActivity(), Observer<Event> {
                 binding.event = it
             })
+            binding.setEditFrequencyListener {
+                val timestamp =
+                    binding.vStartAt.getDateTime()?.timeInMillis ?: System.currentTimeMillis()
+                val direction =
+                    EventEditingDialogDirections.actionEventEditingDialogToFrequencyPickerDialog(
+                        timestamp
+                    )
+                findNavController().navigate(direction)
+            }
             setTitle(R.string.personal_event)
             setView(binding.root)
             val resStrConfirm = if (viewModel.eventId == 0L) R.string.add else R.string.update

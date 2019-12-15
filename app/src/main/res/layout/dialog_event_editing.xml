@@ -7,6 +7,10 @@
         <variable
                 name="event"
                 type="com.morshues.connbroandroid.db.model.Event" />
+
+        <variable
+                name="editFrequencyListener"
+                type="android.view.View.OnClickListener" />
     </data>
 
     <ScrollView
@@ -81,10 +85,31 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     app:dateTime="@{event.startTime}"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/l_start_at" />
+
+            <TextView
+                    android:id="@+id/l_freq"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/personal_event_freq"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/v_start_at" />
+
+            <com.morshues.connbroandroid.widget.FrequencyView
+                    android:id="@+id/v_freq"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:onClick="@{editFrequencyListener}"
+                    android:text="@string/personal_event_freq_once"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/l_freq" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

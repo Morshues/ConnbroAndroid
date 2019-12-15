@@ -79,6 +79,9 @@
         <argument
                 android:name="event_id"
                 app:argType="long" />
+        <action
+                android:id="@+id/action_event_editing_dialog_to_frequency_picker_dialog"
+                app:destination="@id/frequency_picker_dialog" />
     </dialog>
 
     <dialog
@@ -93,6 +96,15 @@
                 app:argType="long" />
         <argument
                 android:name="personal_info_id"
+                app:argType="long" />
+    </dialog>
+
+    <dialog
+            android:id="@+id/frequency_picker_dialog"
+            android:name="com.morshues.connbroandroid.widget.FrequencyPickerDialog"
+            tools:layout="@layout/dialog_frequency_picker">
+        <argument
+                android:name="timestamp"
                 app:argType="long" />
     </dialog>
 
