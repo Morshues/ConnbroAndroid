@@ -2,17 +2,15 @@ package com.morshues.connbroandroid.ui.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.morshues.connbroandroid.databinding.ItemPersonalEventBinding
 import com.morshues.connbroandroid.db.model.Event
-import java.lang.ref.WeakReference
 
-class PersonalEventsAdapter :
+class PersonalEventsAdapter(private val userId: Long, private val friendId: Long) :
     ListAdapter<Event, PersonalEventsAdapter.PersonalEventHolder>(DIFF_CALLBACK) {
-    private var mOnItemClickListener: WeakReference<OnItemClickListener> =
-        WeakReference<OnItemClickListener>(null)
 
     fun getEventAt(position: Int): Event {
         return getItem(position)
@@ -34,7 +32,14 @@ class PersonalEventsAdapter :
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.setClickListener {
-                mOnItemClickListener.get()?.onEventUpdate(getItem(adapterPosition))
+                val event = getItem(adapterPosition)
+                val direction =
+                    FriendDetailFragmentDirections.actionFriendDetailFragmentToEventEditingDialog(
+                        userId,
+                        friendId,
+                        event.id
+                    )
+                binding.root.findNavController().navigate(direction)
             }
         }
 
@@ -44,14 +49,6 @@ class PersonalEventsAdapter :
                 executePendingBindings()
             }
         }
-    }
-
-    interface OnItemClickListener {
-        fun onEventUpdate(event: Event)
-    }
-
-    fun setOnItemClickListener(l: OnItemClickListener) {
-        mOnItemClickListener = WeakReference(l)
     }
 
     companion object {

@@ -2,15 +2,15 @@ package com.morshues.connbroandroid.ui.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.morshues.connbroandroid.databinding.ItemPersonalInfoBinding
 import com.morshues.connbroandroid.db.model.PersonalInfo
 
-class PersonalInfoAdapter :
+class PersonalInfoAdapter(private val userId: Long, private val friendId: Long) :
     ListAdapter<PersonalInfo, PersonalInfoAdapter.PersonalInfoHolder>(DIFF_CALLBACK) {
-    private var mOnItemClickListener: OnItemClickListener? = null
 
     fun getInfoAt(position: Int): PersonalInfo {
         return getItem(position)
@@ -32,7 +32,14 @@ class PersonalInfoAdapter :
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.setClickListener {
-                mOnItemClickListener?.onInfoUpdate(getItem(adapterPosition))
+                val info = getItem(adapterPosition)
+                val direction =
+                    FriendDetailFragmentDirections.actionFriendDetailFragmentToInfoEditingDialog(
+                        userId,
+                        friendId,
+                        info.id
+                    )
+                binding.root.findNavController().navigate(direction)
             }
         }
 
@@ -42,14 +49,6 @@ class PersonalInfoAdapter :
                 executePendingBindings()
             }
         }
-    }
-
-    interface OnItemClickListener {
-        fun onInfoUpdate(info: PersonalInfo)
-    }
-
-    fun setOnItemClickListener(l: OnItemClickListener) {
-        mOnItemClickListener = l
     }
 
     companion object {

@@ -93,9 +93,9 @@ class FriendDetailFragment : Fragment() {
             dlg.show()
         }
 
-        val eventsAdapter = PersonalEventsAdapter()
+        val eventsAdapter = PersonalEventsAdapter(viewModel.userId, viewModel.friendId)
         binding.rvEvents.adapter = eventsAdapter
-        val infoAdapter = PersonalInfoAdapter()
+        val infoAdapter = PersonalInfoAdapter(viewModel.userId, viewModel.friendId)
         binding.rvPersonInfo.adapter = infoAdapter
 
         subscribeUi(eventsAdapter, infoAdapter, binding)
@@ -144,29 +144,6 @@ class FriendDetailFragment : Fragment() {
             binding.friend = it
             eventsAdapter.submitList(it.sortedEvents())
             infoAdapter.submitList(it.sortedInfo())
-        })
-
-        eventsAdapter.setOnItemClickListener(object : PersonalEventsAdapter.OnItemClickListener {
-            override fun onEventUpdate(event: Event) {
-                val direction =
-                    FriendDetailFragmentDirections.actionFriendDetailFragmentToEventEditingDialog(
-                        viewModel.userId,
-                        viewModel.friendId,
-                        event.id
-                    )
-                findNavController().navigate(direction)
-            }
-        })
-        infoAdapter.setOnItemClickListener(object : PersonalInfoAdapter.OnItemClickListener {
-            override fun onInfoUpdate(info: PersonalInfo) {
-                val direction =
-                    FriendDetailFragmentDirections.actionFriendDetailFragmentToInfoEditingDialog(
-                        viewModel.userId,
-                        viewModel.friendId,
-                        info.id
-                    )
-                findNavController().navigate(direction)
-            }
         })
 
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
