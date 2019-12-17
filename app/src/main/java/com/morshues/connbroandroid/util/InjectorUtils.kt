@@ -105,8 +105,8 @@ object InjectorUtils {
         }
     }
 
-    fun provideFrequencyPickerViewModelFactory(timestamp: Long): ViewModelProvider.Factory {
-        return viewModelFactory { FrequencyPickerViewModel(Frequency(timestamp)) }
+    fun provideFrequencyPickerViewModelFactory(frequency: Frequency): ViewModelProvider.Factory {
+        return viewModelFactory { FrequencyPickerViewModel(frequency) }
     }
 
     fun provideInfoEditingViewModelFactory(

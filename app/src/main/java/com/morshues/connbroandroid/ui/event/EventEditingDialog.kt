@@ -14,6 +14,9 @@ import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.databinding.DialogEventEditingBinding
 import com.morshues.connbroandroid.db.model.Event
 import com.morshues.connbroandroid.util.InjectorUtils
+import com.morshues.connbroandroid.widget.Frequency
+import com.morshues.connbroandroid.widget.FrequencyPickerDialog
+import com.morshues.connbroandroid.widget.FrequencyPickerViewModel
 import java.util.*
 
 class EventEditingDialog : DialogFragment() {
@@ -42,13 +45,8 @@ class EventEditingDialog : DialogFragment() {
             })
             binding.frequency = eventViewModel.frequency
             binding.setEditFrequencyListener {
-                val timestamp =
-                    binding.vStartAt.getDateTime()?.timeInMillis ?: System.currentTimeMillis()
-                val direction =
-                    EventEditingDialogDirections.actionEventEditingDialogToFrequencyPickerDialog(
-                        timestamp
-                    )
-                findNavController().navigate(direction)
+                FrequencyPickerDialog.newInstance(eventViewModel.frequency)
+                    .show(requireFragmentManager(), null)
             }
             setTitle(R.string.personal_event)
             setView(binding.root)

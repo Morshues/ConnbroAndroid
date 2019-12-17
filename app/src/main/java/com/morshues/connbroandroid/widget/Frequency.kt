@@ -1,10 +1,14 @@
 package com.morshues.connbroandroid.widget
 
+import android.os.Parcelable
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
+import kotlinx.android.parcel.IgnoredOnParcel
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+@Parcelize
 data class Frequency(
     private var _enable: Boolean = true,
     private var _type: Type = Type.DAILY,
@@ -12,8 +16,9 @@ data class Frequency(
     private var _interval: Int = 1,
     private var _repeatTime: Int = 0,
     private var _isUnlimited: Boolean = true
-) : BaseObservable() {
+) : BaseObservable(), Parcelable {
 
+    @IgnoredOnParcel
     val defaultCalendar = GregorianCalendar()
     constructor(defaultTimestamp: Long) : this() {
         defaultCalendar.timeInMillis = defaultTimestamp

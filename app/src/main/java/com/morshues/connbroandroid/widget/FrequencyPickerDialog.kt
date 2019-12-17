@@ -11,20 +11,17 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import com.morshues.connbroandroid.R
 import com.morshues.connbroandroid.databinding.DialogFrequencyPickerBinding
 import com.morshues.connbroandroid.util.InjectorUtils
 import java.text.DateFormatSymbols
 import java.util.*
 
-
 class FrequencyPickerDialog : DialogFragment() {
-    private val args: FrequencyPickerDialogArgs by navArgs()
 
     private lateinit var binding: DialogFrequencyPickerBinding
     private val viewModel: FrequencyPickerViewModel by viewModels {
-        InjectorUtils.provideFrequencyPickerViewModelFactory(args.timestamp)
+        InjectorUtils.provideFrequencyPickerViewModelFactory(arguments!!.getParcelable(ARG_FREQUENCY)!!)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -83,6 +80,18 @@ class FrequencyPickerDialog : DialogFragment() {
             11, 12, 13 -> "${i}th"
             else -> "$i${sufixes[i % 10]}"
         }
+    }
+
+    companion object {
+        private const val ARG_FREQUENCY = "argFrequency"
+
+        @JvmStatic
+        fun newInstance(freq: Frequency) =
+            FrequencyPickerDialog().apply {
+                arguments = Bundle().apply {
+                    putParcelable(ARG_FREQUENCY, freq)
+                }
+            }
     }
 }
 
